@@ -1,5 +1,5 @@
 version: '1.0'
-generated: '2026-08-31T08:01:32.202Z'
+generated: '2026-08-31T14:56:43.616Z'
 by_symbol:
   '!alarm-dismissed':
     symbol: '!alarm-dismissed'
@@ -279,7 +279,7 @@ by_symbol:
     stability_score: 1
     fragility: low
     recent:
-      - &ref_2
+      - &ref_3
         id: h0003
         ts: '2026-08-31T08:01:31Z'
         type: implement
@@ -320,11 +320,72 @@ by_symbol:
       agent: []
   '#alarm-scheduler':
     symbol: '#alarm-scheduler'
-    total_changes: 1
-    last_modified: '2026-08-31T07:34:35Z'
+    total_changes: 2
+    last_modified: '2026-08-31T14:56:42Z'
     stability_score: 1
     fragility: low
     recent:
+      - &ref_2
+        id: h0004
+        ts: '2026-08-31T14:56:42Z'
+        type: implement
+        symbols:
+          - '#alarm-scheduler'
+          - '#alarms-view'
+          - '#beep'
+          - '#format'
+          - '#pomodoro'
+          - '#puzzle-gate'
+          - '#ringing-overlay'
+          - '#stopwatch'
+          - '#storage'
+          - '#tauri-core'
+          - '#timer'
+          - '#wake'
+          - $alarm-lifecycle
+        author:
+          type: human
+          id: ascend
+        commit: 54cd03630bdf70256d84693e1dacb70b4f25f1c3
+        intent: feature
+        files:
+          - .paradigm/.team-bypass-recorded
+          - .paradigm/.team-prompted
+          - .paradigm/aspect-graph.db
+          - .paradigm/events/compliance-history.jsonl
+          - .paradigm/events/debates.jsonl
+          - .paradigm/events/nominations.jsonl
+          - .paradigm/events/stream.jsonl
+          - .paradigm/events/team-funnel.jsonl
+          - .paradigm/flow-index.json
+          - .paradigm/history/index.yaml
+          - .paradigm/history/log.jsonl
+          - .paradigm/lore/entries/2026-08-31/L-2026-08-31-ascend-145625-001.lore
+          - .paradigm/lore/timeline.yaml
+          - .paradigm/manifest.consistency.json
+          - .paradigm/navigator.yaml
+          - .paradigm/personas/index.yaml
+          - .paradigm/scan-index.json
+          - .paradigm/session-breadcrumbs.json
+          - .paradigm/university/index.yaml
+          - src-tauri/src/.purpose
+          - src-tauri/src/lib.rs
+          - src/App.css
+          - src/App.tsx
+          - src/components/.purpose
+          - src/components/AlarmsView.tsx
+          - src/components/PomodoroView.tsx
+          - src/components/PuzzleGate.tsx
+          - src/components/StopwatchView.tsx
+          - src/components/TimerView.tsx
+          - src/lib/.purpose
+          - src/lib/beep.ts
+          - src/lib/format.ts
+          - src/lib/native.ts
+          - src/lib/storage.ts
+          - src/lib/wake.ts
+          - src/types.ts
+        description: 'feat(#tauri-core): stopwatch/timer/pomodoro, alarm queue, and wake-from-sleep'
       - *ref_0
     contributors:
       human:
@@ -332,11 +393,12 @@ by_symbol:
       agent: []
   '#alarms-view':
     symbol: '#alarms-view'
-    total_changes: 2
-    last_modified: '2026-08-31T07:55:42Z'
+    total_changes: 3
+    last_modified: '2026-08-31T14:56:42Z'
     stability_score: 1
     fragility: low
     recent:
+      - *ref_2
       - *ref_1
       - *ref_0
     contributors:
@@ -357,11 +419,12 @@ by_symbol:
       agent: []
   '#beep':
     symbol: '#beep'
-    total_changes: 1
-    last_modified: '2026-08-31T07:34:35Z'
+    total_changes: 2
+    last_modified: '2026-08-31T14:56:42Z'
     stability_score: 1
     fragility: low
     recent:
+      - *ref_2
       - *ref_0
     contributors:
       human:
@@ -393,11 +456,12 @@ by_symbol:
       agent: []
   '#ringing-overlay':
     symbol: '#ringing-overlay'
-    total_changes: 2
-    last_modified: '2026-08-31T07:55:42Z'
+    total_changes: 3
+    last_modified: '2026-08-31T14:56:42Z'
     stability_score: 1
     fragility: low
     recent:
+      - *ref_2
       - *ref_1
       - *ref_0
     contributors:
@@ -406,11 +470,12 @@ by_symbol:
       agent: []
   '#storage':
     symbol: '#storage'
-    total_changes: 1
-    last_modified: '2026-08-31T07:34:35Z'
+    total_changes: 2
+    last_modified: '2026-08-31T14:56:42Z'
     stability_score: 1
     fragility: low
     recent:
+      - *ref_2
       - *ref_0
     contributors:
       human:
@@ -418,11 +483,12 @@ by_symbol:
       agent: []
   '#tauri-core':
     symbol: '#tauri-core'
-    total_changes: 2
-    last_modified: '2026-08-31T07:55:42Z'
+    total_changes: 3
+    last_modified: '2026-08-31T14:56:42Z'
     stability_score: 1
     fragility: low
     recent:
+      - *ref_2
       - *ref_1
       - *ref_0
     contributors:
@@ -467,11 +533,12 @@ by_symbol:
       agent: []
   $alarm-lifecycle:
     symbol: $alarm-lifecycle
-    total_changes: 2
-    last_modified: '2026-08-31T07:55:42Z'
+    total_changes: 3
+    last_modified: '2026-08-31T14:56:42Z'
     stability_score: 1
     fragility: low
     recent:
+      - *ref_2
       - *ref_1
       - *ref_0
     contributors:
@@ -497,7 +564,7 @@ by_symbol:
     stability_score: 1
     fragility: low
     recent:
-      - *ref_2
+      - *ref_3
       - *ref_0
     contributors:
       human:
@@ -541,13 +608,74 @@ by_symbol:
       agent: []
   '#puzzle-gate':
     symbol: '#puzzle-gate'
-    total_changes: 2
-    last_modified: '2026-08-31T08:01:31Z'
+    total_changes: 3
+    last_modified: '2026-08-31T14:56:42Z'
     stability_score: 1
     fragility: low
     recent:
       - *ref_2
+      - *ref_3
       - *ref_1
+    contributors:
+      human:
+        - ascend
+      agent: []
+  '#format':
+    symbol: '#format'
+    total_changes: 1
+    last_modified: '2026-08-31T14:56:42Z'
+    stability_score: 1
+    fragility: low
+    recent:
+      - *ref_2
+    contributors:
+      human:
+        - ascend
+      agent: []
+  '#pomodoro':
+    symbol: '#pomodoro'
+    total_changes: 1
+    last_modified: '2026-08-31T14:56:42Z'
+    stability_score: 1
+    fragility: low
+    recent:
+      - *ref_2
+    contributors:
+      human:
+        - ascend
+      agent: []
+  '#stopwatch':
+    symbol: '#stopwatch'
+    total_changes: 1
+    last_modified: '2026-08-31T14:56:42Z'
+    stability_score: 1
+    fragility: low
+    recent:
+      - *ref_2
+    contributors:
+      human:
+        - ascend
+      agent: []
+  '#timer':
+    symbol: '#timer'
+    total_changes: 1
+    last_modified: '2026-08-31T14:56:42Z'
+    stability_score: 1
+    fragility: low
+    recent:
+      - *ref_2
+    contributors:
+      human:
+        - ascend
+      agent: []
+  '#wake':
+    symbol: '#wake'
+    total_changes: 1
+    last_modified: '2026-08-31T14:56:42Z'
+    stability_score: 1
+    fragility: low
+    recent:
+      - *ref_2
     contributors:
       human:
         - ascend

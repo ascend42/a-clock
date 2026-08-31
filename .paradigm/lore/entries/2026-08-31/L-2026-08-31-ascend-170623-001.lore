@@ -1,0 +1,53 @@
+id: L-2026-08-31-ascend-170623-001
+type: milestone
+timestamp: '2026-08-31T17:06:23.079Z'
+author: ascend
+agent:
+  provider: anthropic
+  model: claude-opus-4-6
+title: 'a-clock: iOS + Android scaffolds and responsive mobile layout'
+summary: 'Extended a-clock from macOS to mobile using Tauri 2, reusing the same React frontend. Scaffolded iOS (gen/apple Xcode project) and Android (gen/android Gradle project) targets and installed their Rust targets. Refactored src-tauri/src/lib.rs to gate desktop-only features (menu-bar tray, hide-on-close, pmset wake) under #[cfg(desktop)] so the mobile builds compile. Confirmed the app builds and runs in the iOS Simulator (full UI, notification permission prompt fired). Converted the desktop sidebar into a responsive bottom tab bar with safe-area insets and clamped fonts via a max-width:640px media query — mobile look, identical functionality. Freed disk (cleared Xcode DerivedData) to unblock the toolchain.'
+symbols_touched:
+  - '#tauri-core'
+files_created:
+  - src-tauri/gen/apple (iOS Xcode project)
+  - src-tauri/gen/android (Android Gradle project)
+files_modified:
+  - src-tauri/src/lib.rs
+  - src/App.css
+  - index.html
+decisions:
+  - id: tauri-mobile
+    decision: Target iOS and Android with Tauri 2, reusing the React frontend, rather than native or Flutter
+    rationale: User asked for Android compatibility and the simplest build. Tauri 2 wraps the same web UI for both mobile platforms, so the entire app ports with near-zero code changes; only the alarm-firing mechanism needs platform-native rework.
+  - id: cfg-desktop-gating
+    decision: 'Gate tray, hide-on-close, and pmset wake under #[cfg(desktop)] / #[cfg(target_os = macos)]'
+    rationale: Those APIs and the tray-icon feature are desktop/macOS-only; without gating, the iOS and Android Rust builds fail to compile.
+  - id: css-only-mobile-layout
+    decision: Make the layout responsive with a CSS media query (sidebar -> bottom tab bar) instead of restructuring components
+    rationale: The user wanted a mobile look while keeping the bones of how the app works. A pure-presentation breakpoint changes zero behavior and benefits iOS and Android identically.
+learnings:
+  - 'Tauri desktop-only APIs (tray::*, window hide/close, the tray-icon cargo feature) must be #[cfg(desktop)]-gated or the mobile targets won''t compile.'
+  - tauri ios dev builds all Rust crates for the iOS arch (~2 min first pass) then xcodebuild + launches on a chosen simulator; success shows '** BUILD SUCCEEDED **' and an 'Info connection' line when the app connects to the dev server.
+  - Mobile dev needs real disk headroom (iOS+Android Rust targets, pods, gradle); a full disk fails CocoaPods with 'No space left on device'.
+  - env(safe-area-inset-*) needs viewport-fit=cover in the viewport meta to take effect on iOS.
+verification:
+  status: partial
+  details:
+    desktop-cargo-check: pass
+    ios-simulator-build: pass
+    ios-simulator-run: pass
+    android-scaffold: pass
+    android-run: untested
+tags:
+  - tauri
+  - ios
+  - android
+  - mobile
+  - responsive
+  - cross-platform
+confidence: 0.8
+git_context:
+  ref: 54cd03630bdf70256d84693e1dacb70b4f25f1c3
+  branch: main
+  dirty: true

@@ -156,6 +156,8 @@ textarea {
 }
 .analog-clock {
   color: var(--fg-dim);
+  max-width: 84vw;
+  height: auto;
 }
 .clock-rim {
   fill: var(--bg-elev);
@@ -169,7 +171,7 @@ textarea {
   font-variant-numeric: tabular-nums;
 }
 .digital-time {
-  font-size: 92px;
+  font-size: clamp(52px, 16vw, 92px);
   font-weight: 700;
   letter-spacing: -0.03em;
 }
@@ -376,7 +378,7 @@ textarea {
   padding: 20px;
 }
 .chrono-display {
-  font-size: 84px;
+  font-size: clamp(44px, 15vw, 84px);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.02em;
@@ -853,5 +855,77 @@ textarea {
   40%,
   80% {
     transform: translateX(8px);
+  }
+}
+
+/* ============================================================
+   Mobile layout — sidebar becomes a bottom tab bar.
+   Presentation only; app behavior is unchanged.
+   ============================================================ */
+@media (max-width: 640px) {
+  /* content on top, nav pinned to the bottom */
+  .app {
+    flex-direction: column-reverse;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 2px;
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom, 0px));
+    border-right: none;
+    border-top: 1px solid var(--border);
+  }
+  .brand {
+    display: none;
+  }
+  .nav-item {
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 6px 2px;
+    font-size: 10.5px;
+    border-radius: 10px;
+  }
+  /* tab-bar active state: accent color, no filled pill */
+  .nav-item.active,
+  .nav-item:hover {
+    background: transparent;
+  }
+  .nav-item.active {
+    color: var(--accent);
+  }
+  .nav-ico {
+    font-size: 22px;
+  }
+
+  .content {
+    padding: calc(16px + env(safe-area-inset-top, 0px)) 16px 16px;
+  }
+
+  .clock-view {
+    gap: 24px;
+  }
+  .clock-controls {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .alarms-header-actions {
+    gap: 10px;
+  }
+
+  /* keep the ringing buttons clear of the home indicator */
+  .ringing-inner {
+    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .pomo-ring {
+    width: 240px;
+    height: 240px;
   }
 }
