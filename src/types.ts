@@ -52,6 +52,26 @@ export interface ClockSettings {
   face: ClockFace;
   hour24: boolean;
   showSeconds: boolean;
+  /** Schedule a macOS wake before each alarm so it fires from sleep. */
+  wakeFromSleep: boolean;
 }
 
 export const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+export interface PomodoroSettings {
+  workMin: number;
+  shortMin: number;
+  longMin: number;
+  /** Take a long break after this many work sessions. */
+  longEvery: number;
+  /** Automatically start the next phase when one ends. */
+  autoStart: boolean;
+}
+
+export const DEFAULT_POMODORO: PomodoroSettings = {
+  workMin: 25,
+  shortMin: 5,
+  longMin: 15,
+  longEvery: 4,
+  autoStart: true,
+};

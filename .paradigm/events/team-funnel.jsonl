@@ -1,1 +1,5 @@
 {"timestamp":"2026-08-31T07:08:01Z","type":"edit-advisory","source":"team-gate","file":"types.ts"}
+{"timestamp":"2026-08-31T08:25:12Z","type":"bypass","source":"stop-hook","magnitude":10,"reasons":"7 source files, 1 securityadjacent, 2 .purpose files","severity":"warn"}
+{"timestamp":"2026-08-31T09:08:25Z","type":"eligible","source":"prompt-gate","matched":"build "}
+{"timestamp":"2026-08-31T14:12:08Z","type":"edit-advisory","source":"team-gate","file":"lib.rs"}
+{"timestamp":"2026-08-31T14:15:03Z","type":"bypass","source":"stop-hook","magnitude":12,"reasons":"9 source files, 1 securityadjacent, 2 .purpose files","severity":"warn"}

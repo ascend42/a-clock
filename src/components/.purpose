@@ -1,5 +1,5 @@
 version: 1.0.0
-description: React view components for the clock and alarm surfaces
+description: React view components for the clock, alarm, stopwatch, timer, and pomodoro surfaces
 context:
   - Presentational + interactive components. Alarm/clock state is owned by App.tsx and passed down via props.
 components:
@@ -17,7 +17,7 @@ components:
     parent: '#clock-view'
     file: src/components/AnalogClock.tsx
   alarms-view:
-    description: Lists alarms; create, edit, enable/disable, delete, and test each one.
+    description: Lists alarms; create, edit, enable/disable, delete, duplicate, and test each one. Header toggle arms macOS wake-from-sleep for alarms.
     type: view
     flows:
       - $alarm-lifecycle
@@ -57,9 +57,31 @@ components:
       - '#youtube'
     file: src/components/TriggerPlayer.tsx
   puzzle-gate:
-    description: 'Solve-to-dismiss overlay: N math problems with a countdown; solving all correctly dismisses the alarm, a wrong answer regenerates them, and running out of time resumes the ringing.'
+    description: 'Solve-to-dismiss overlay: N math problems with a countdown; solving all correctly dismisses the alarm, a wrong answer buzzes and regenerates them, and running out of time resumes the ringing.'
     type: view
     parent: '#ringing-overlay'
     components:
       - '#puzzle'
+      - '#beep'
     file: src/components/PuzzleGate.tsx
+  stopwatch:
+    description: 'Stopwatch tab: start/stop/resume/reset with centisecond precision and lap splits. Uses performance.now() so it stays accurate across background throttling.'
+    type: view
+    file: src/components/StopwatchView.tsx
+  timer:
+    description: 'Countdown timer tab: preset or custom mm:ss duration, start/pause/reset; on completion it beeps until dismissed and posts a notification.'
+    type: view
+    components:
+      - '#beep'
+      - '#format'
+      - '#native'
+    file: src/components/TimerView.tsx
+  pomodoro:
+    description: 'Pomodoro tab: focus/short-break/long-break cycles with a progress ring, editable durations, auto-start, chime + notification on each phase change, and a completed-session count. Settings persist via #storage.'
+    type: view
+    components:
+      - '#beep'
+      - '#format'
+      - '#native'
+      - '#storage'
+    file: src/components/PomodoroView.tsx

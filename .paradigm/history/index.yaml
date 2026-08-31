@@ -1,5 +1,5 @@
 version: '1.0'
-generated: '2026-08-31T07:55:43.066Z'
+generated: '2026-08-31T08:01:32.202Z'
 by_symbol:
   '!alarm-dismissed':
     symbol: '!alarm-dismissed'
@@ -274,11 +274,44 @@ by_symbol:
       agent: []
   '#alarm-editor':
     symbol: '#alarm-editor'
-    total_changes: 2
-    last_modified: '2026-08-31T07:55:42Z'
+    total_changes: 3
+    last_modified: '2026-08-31T08:01:31Z'
     stability_score: 1
     fragility: low
     recent:
+      - &ref_2
+        id: h0003
+        ts: '2026-08-31T08:01:31Z'
+        type: implement
+        symbols:
+          - '#alarm-editor'
+          - '#puzzle-gate'
+          - $trigger-preview
+        author:
+          type: human
+          id: ascend
+        commit: 37a47f6f3045c7aab5b12ac5fefe3377f8946009
+        intent: feature
+        files:
+          - .paradigm/aspect-graph.db
+          - .paradigm/events/debates.jsonl
+          - .paradigm/events/nominations.jsonl
+          - .paradigm/events/stream.jsonl
+          - .paradigm/flow-index.json
+          - .paradigm/history/index.yaml
+          - .paradigm/history/log.jsonl
+          - .paradigm/lore/entries/2026-08-31/L-2026-08-31-ascend-080125-001.lore
+          - .paradigm/lore/timeline.yaml
+          - .paradigm/manifest.consistency.json
+          - .paradigm/navigator.yaml
+          - .paradigm/personas/index.yaml
+          - .paradigm/scan-index.json
+          - .paradigm/session-breadcrumbs.json
+          - .paradigm/university/index.yaml
+          - src/App.css
+          - src/components/.purpose
+          - src/components/AlarmEditor.tsx
+        description: 'feat(#alarm-editor): inline puzzle preview to test problems before saving'
       - *ref_1
       - *ref_0
     contributors:
@@ -459,11 +492,12 @@ by_symbol:
       agent: []
   $trigger-preview:
     symbol: $trigger-preview
-    total_changes: 1
-    last_modified: '2026-08-31T07:34:35Z'
+    total_changes: 2
+    last_modified: '2026-08-31T08:01:31Z'
     stability_score: 1
     fragility: low
     recent:
+      - *ref_2
       - *ref_0
     contributors:
       human:
@@ -507,11 +541,12 @@ by_symbol:
       agent: []
   '#puzzle-gate':
     symbol: '#puzzle-gate'
-    total_changes: 1
-    last_modified: '2026-08-31T07:55:42Z'
+    total_changes: 2
+    last_modified: '2026-08-31T08:01:31Z'
     stability_score: 1
     fragility: low
     recent:
+      - *ref_2
       - *ref_1
     contributors:
       human:

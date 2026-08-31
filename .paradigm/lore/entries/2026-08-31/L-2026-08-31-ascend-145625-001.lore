@@ -1,0 +1,85 @@
+id: L-2026-08-31-ascend-145625-001
+type: milestone
+timestamp: '2026-08-31T14:56:25.529Z'
+author: ascend
+agent:
+  provider: anthropic
+  model: claude-opus-4-6
+title: 'a-clock: chrono tabs, concurrency queue, and a real installed app with wake-from-sleep'
+summary: Third feature batch plus the shift from dev-server to a real installed app. Added Stopwatch (laps), Timer (presets/custom, beep+notify on completion), and Pomodoro (cycles, ring, chime+notify, editable settings) as background-running tabs. Fixed the ringing overlay so the media sizes by available height and the Dismiss/Snooze buttons are always in frame. Added a distinct wrong-answer buzzer to the puzzle gate. Reworked concurrent alarms into a queue so a second alarm never overwrites the active one (or resets an in-progress puzzle) and never fires side effects prematurely. Built and installed a standalone a-clock.app to /Applications with a login item, and added opt-in macOS wake-from-sleep via a pmset-based Tauri command so alarms fire even when the Mac is asleep.
+symbols_touched:
+  - '#stopwatch'
+  - '#timer'
+  - '#pomodoro'
+  - '#format'
+  - '#storage'
+  - '#ringing-overlay'
+  - '#puzzle-gate'
+  - '#beep'
+  - '#alarm-scheduler'
+  - '#tauri-core'
+  - '#wake'
+  - '#alarms-view'
+  - $alarm-lifecycle
+symbols_created:
+  - '#stopwatch'
+  - '#timer'
+  - '#pomodoro'
+  - '#format'
+  - '#wake'
+files_created:
+  - src/components/StopwatchView.tsx
+  - src/components/TimerView.tsx
+  - src/components/PomodoroView.tsx
+  - src/lib/format.ts
+  - src/lib/wake.ts
+files_modified:
+  - src/App.tsx
+  - src/App.css
+  - src/types.ts
+  - src/lib/storage.ts
+  - src/lib/beep.ts
+  - src/components/AlarmsView.tsx
+  - src/components/AlarmEditor.tsx
+  - src/components/RingingOverlay.tsx
+  - src/components/PuzzleGate.tsx
+  - src-tauri/src/lib.rs
+  - src-tauri/Cargo.toml
+decisions:
+  - id: chrono-background-mount
+    decision: Keep stopwatch/timer/pomodoro views mounted (hidden) instead of conditionally rendered
+    rationale: A running stopwatch or timer must keep ticking while the user is on another tab; unmounting would reset it. They also use performance.now() so they stay accurate across throttling.
+  - id: alarm-queue
+    decision: Queue concurrent alarms instead of dropping or overwriting
+    rationale: A second alarm firing while one is ringing was silently lost and still ran side effects (notify + one-time disable). A queue rings it after the current one, never interrupts an in-progress puzzle (key={alarm.id} + no remount), and moves side effects to a single activate() path.
+  - id: standalone-app-over-dev
+    decision: Build/install a real a-clock.app with a login item rather than relying on the dev server
+    rationale: The user's alarms didn't fire because only the ephemeral dev server was running and it was killed. A real installed app that launches at login and lives in the tray is required to trust it as an alarm clock.
+  - id: pmset-wake
+    decision: Wake the Mac from sleep with pmset via an osascript admin prompt, opt-in per the wake toggle
+    rationale: A JS timer can't wake a sleeping Mac. pmset schedule wake can, but needs root, so we authorize via a one-time admin prompt and dedupe so it only re-prompts when the earliest alarm changes.
+learnings:
+  - Dev and release Tauri builds share a bundle id but use different webview origins (localhost vs tauri://), so localStorage does not carry over — alarms set in dev do not appear in the installed app.
+  - pmset schedule wake requires root; invoking it from a GUI app means an osascript 'with administrator privileges' prompt, so scheduling must be deduped to avoid repeated prompts.
+  - Giving the ringing overlay key={alarm.id} makes each alarm start fresh while the same active alarm never remounts, which preserves an in-progress puzzle across the 4x/sec time re-render.
+verification:
+  status: partial
+  details:
+    typecheck: pass
+    release-build: pass
+    installed-app-launch: pass
+    automated-tests: none
+tags:
+  - tauri
+  - stopwatch
+  - timer
+  - pomodoro
+  - alarm
+  - pmset
+  - macos
+  - release
+confidence: 0.85
+git_context:
+  ref: 37a47f6f3045c7aab5b12ac5fefe3377f8946009
+  branch: main
+  dirty: true

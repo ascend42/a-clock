@@ -34,6 +34,17 @@ function formatTime(a: Alarm): string {
   return `${h}:${String(a.minute).padStart(2, "0")} ${suffix}`;
 }
 
+/** Post a generic macOS notification (no-op if not permitted). */
+export async function notify(title: string, body: string): Promise<void> {
+  try {
+    if (await ensureNotificationPermission()) {
+      sendNotification({ title, body });
+    }
+  } catch {
+    // notifications unavailable
+  }
+}
+
 /** Post a macOS notification for a firing alarm (no-op if not permitted). */
 export async function notifyAlarm(alarm: Alarm): Promise<void> {
   try {

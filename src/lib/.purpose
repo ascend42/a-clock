@@ -2,7 +2,7 @@ version: 1.0.0
 description: Persistence, audio, YouTube parsing, and native file-picking utilities
 components:
   storage:
-    description: Loads and saves alarms and clock settings to localStorage; fails safe when storage is unavailable.
+    description: Loads and saves alarms, clock settings, and pomodoro settings to localStorage; fails safe when storage is unavailable.
     type: lib
     file: src/lib/storage.ts
   beep:
@@ -31,5 +31,15 @@ components:
     file: src/lib/alarm.ts
   puzzle:
     description: Generates simple math problems by difficulty (easy add/subtract, medium multiply/larger sums, hard multiply-and-add) for the solve-to-dismiss gate.
+    type: lib
     file: src/lib/puzzle.ts
+  format:
+    description: Formats a millisecond duration as a clock string (hours only when needed, optional centiseconds) for the stopwatch, timer, and pomodoro.
+    type: lib
+    file: src/lib/format.ts
+  wake:
+    description: Schedules a macOS wake (via the schedule_wake Tauri command / pmset) ~30s before the earliest upcoming alarm so it fires from full sleep; deduped to avoid repeat admin prompts. Computes each alarm's next occurrence.
+    file: src/lib/wake.ts
+    components:
+      - '#tauri-core'
     type: lib

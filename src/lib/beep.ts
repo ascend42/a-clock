@@ -26,8 +26,36 @@ export function unlockAudio(): void {
   }
 }
 
+/** A short low "wrong answer" buzzer — a descending sawtooth. */
+export function playBuzzer(): void {
+  try {
+    const c = getCtx();
+    if (c.state === "suspended") void c.resume();
+    const now = c.currentTime;
+    const osc = c.createOscillator();
+    const gain = c.createGain();
+    osc.type = "sawtooth";
+    osc.frequency.setValueAtTime(200, now);
+    osc.frequency.exponentialRampToValueAtTime(90, now + 0.32);
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(0.3, now + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.36);
+    osc.connect(gain).connect(c.destination);
+    osc.start(now);
+    osc.stop(now + 0.38);
+  } catch {
+    // no audio available; the shake still signals the error visually
+  }
+}
+
 export interface BeepHandle {
   stop: () => void;
+}
+
+/** Play a short burst of beeps (timer/pomodoro transitions), then stop. */
+export function playChime(durationMs = 1800): void {
+  const handle = startBeep();
+  window.setTimeout(() => handle.stop(), durationMs);
 }
 
 /** Start a repeating two-tone beep. Returns a handle to stop it. */

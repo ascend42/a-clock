@@ -2,7 +2,7 @@
   "$meta": {
     "version": "1.0.0",
     "project": "a-clock",
-    "generatedAt": "2026-08-31T07:59:24.664Z",
+    "generatedAt": "2026-08-31T14:56:39.985Z",
     "paradigmVersion": "0.1.0",
     "sources": {
       "purposeFiles": 6,
@@ -11,9 +11,9 @@
     },
     "componentTypes": {
       "core": 1,
-      "view": 7,
+      "view": 10,
       "hook": 2,
-      "lib": 7
+      "lib": 9
     }
   },
   "components": {
@@ -23,7 +23,7 @@
       "symbol": "#tauri-core",
       "category": "components",
       "path": "/Users/ascend/Documents/GitHub/a-clock/src-tauri/src/.purpose",
-      "description": "Tauri application entry point. Registers the opener, dialog, and notification plugins; enables the asset protocol for local media; builds a menu-bar tray (Show/Quit) and hides the window on close so the alarm scheduler keeps running in the background.",
+      "description": "Tauri entry point. Registers opener/dialog/notification plugins; enables the asset protocol; builds a menu-bar tray and hides the window on close so the scheduler keeps running. Exposes schedule_wake/cancel_wake commands that run pmset (via osascript admin prompt) to wake the Mac from sleep for alarms.",
       "visualTags": [],
       "related": [],
       "componentType": "core"
@@ -62,7 +62,7 @@
       "symbol": "#alarms-view",
       "category": "components",
       "path": "/Users/ascend/Documents/GitHub/a-clock/src/components/.purpose",
-      "description": "Lists alarms; create, edit, enable/disable, delete, and test each one.",
+      "description": "Lists alarms; create, edit, enable/disable, delete, duplicate, and test each one. Header toggle arms macOS wake-from-sleep for alarms.",
       "visualTags": [],
       "related": [
         "$alarm-lifecycle",
@@ -127,14 +127,57 @@
       "symbol": "#puzzle-gate",
       "category": "components",
       "path": "/Users/ascend/Documents/GitHub/a-clock/src/components/.purpose",
-      "description": "Solve-to-dismiss overlay: N math problems with a countdown; solving all correctly dismisses the alarm, a wrong answer regenerates them, and running out of time resumes the ringing.",
+      "description": "Solve-to-dismiss overlay: N math problems with a countdown; solving all correctly dismisses the alarm, a wrong answer buzzes and regenerates them, and running out of time resumes the ringing.",
       "visualTags": [],
       "related": [
         "#ringing-overlay",
-        "#puzzle"
+        "#puzzle",
+        "#beep"
       ],
       "componentType": "view",
       "parent": "#ringing-overlay"
+    },
+    "stopwatch": {
+      "id": "stopwatch",
+      "name": "Stopwatch",
+      "symbol": "#stopwatch",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/components/.purpose",
+      "description": "Stopwatch tab: start/stop/resume/reset with centisecond precision and lap splits. Uses performance.now() so it stays accurate across background throttling.",
+      "visualTags": [],
+      "related": [],
+      "componentType": "view"
+    },
+    "timer": {
+      "id": "timer",
+      "name": "Timer",
+      "symbol": "#timer",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/components/.purpose",
+      "description": "Countdown timer tab: preset or custom mm:ss duration, start/pause/reset; on completion it beeps until dismissed and posts a notification.",
+      "visualTags": [],
+      "related": [
+        "#beep",
+        "#format",
+        "#native"
+      ],
+      "componentType": "view"
+    },
+    "pomodoro": {
+      "id": "pomodoro",
+      "name": "Pomodoro",
+      "symbol": "#pomodoro",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/components/.purpose",
+      "description": "Pomodoro tab: focus/short-break/long-break cycles with a progress ring, editable durations, auto-start, chime + notification on each phase change, and a completed-session count. Settings persist via #storage.",
+      "visualTags": [],
+      "related": [
+        "#storage",
+        "#beep",
+        "#format",
+        "#native"
+      ],
+      "componentType": "view"
     },
     "alarm-scheduler": {
       "id": "alarm-scheduler",
@@ -167,7 +210,7 @@
       "symbol": "#storage",
       "category": "components",
       "path": "/Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose",
-      "description": "Loads and saves alarms and clock settings to localStorage; fails safe when storage is unavailable.",
+      "description": "Loads and saves alarms, clock settings, and pomodoro settings to localStorage; fails safe when storage is unavailable.",
       "visualTags": [],
       "related": [],
       "componentType": "lib"
@@ -241,6 +284,44 @@
       "visualTags": [],
       "related": [],
       "componentType": "lib"
+    },
+    "format": {
+      "id": "format",
+      "name": "Format",
+      "symbol": "#format",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose",
+      "description": "Formats a millisecond duration as a clock string (hours only when needed, optional centiseconds) for the stopwatch, timer, and pomodoro.",
+      "visualTags": [
+        "form"
+      ],
+      "related": [],
+      "componentType": "lib"
+    },
+    "wake": {
+      "id": "wake",
+      "name": "Wake",
+      "symbol": "#wake",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose",
+      "description": "Schedules a macOS wake (via the schedule_wake Tauri command / pmset) ~30s before the earliest upcoming alarm so it fires from full sleep; deduped to avoid repeat admin prompts. Computes each alarm's next occurrence.",
+      "visualTags": [],
+      "related": [
+        "#tauri-core"
+      ],
+      "componentType": "lib"
+    },
+    "storage.": {
+      "id": "storage.",
+      "name": "Storage.",
+      "symbol": "#storage.",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/components/.purpose",
+      "description": "Referenced from #pomodoro",
+      "visualTags": [],
+      "related": [
+        "#pomodoro"
+      ]
     }
   },
   "features": {},
@@ -371,6 +452,18 @@
       "category": "components",
       "id": "puzzle-gate"
     },
+    "#stopwatch": {
+      "category": "components",
+      "id": "stopwatch"
+    },
+    "#timer": {
+      "category": "components",
+      "id": "timer"
+    },
+    "#pomodoro": {
+      "category": "components",
+      "id": "pomodoro"
+    },
     "#alarm-scheduler": {
       "category": "components",
       "id": "alarm-scheduler"
@@ -407,6 +500,14 @@
       "category": "components",
       "id": "puzzle"
     },
+    "#format": {
+      "category": "components",
+      "id": "format"
+    },
+    "#wake": {
+      "category": "components",
+      "id": "wake"
+    },
     "$alarm-lifecycle": {
       "category": "flows",
       "id": "alarm-lifecycle"
@@ -430,6 +531,10 @@
     "!alarm-dismissed": {
       "category": "signals",
       "id": "alarm-dismissed"
+    },
+    "#storage.": {
+      "category": "components",
+      "id": "storage."
     }
   }
 }

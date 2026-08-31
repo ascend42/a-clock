@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { PuzzleDifficulty } from "../types";
 import { generateProblems, type MathProblem } from "../lib/puzzle";
+import { playBuzzer } from "../lib/beep";
 
 /** Seconds the puzzle stays up before the alarm resumes ringing. */
 const TIMEOUT_MS = 60_000;
@@ -61,7 +62,8 @@ export function PuzzleGate({
       onSolved();
       return;
     }
-    // Wrong: regenerate so you can't brute-force, and flash an error.
+    // Wrong: buzz, regenerate so you can't brute-force, and flash an error.
+    playBuzzer();
     setWrong(true);
     setProblems(generateProblems(count, difficulty));
     setAnswers(Array(count).fill(""));

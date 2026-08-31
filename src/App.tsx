@@ -11,6 +11,7 @@ import {
 } from "./lib/storage";
 import { unlockAudio } from "./lib/beep";
 import { duplicateAlarm } from "./lib/alarm";
+import { scheduleNextWake, cancelScheduledWake } from "./lib/wake";
 import {
   ensureNotificationPermission,
   notifyAlarm,
@@ -19,8 +20,11 @@ import {
 import { ClockView } from "./components/ClockView";
 import { AlarmsView } from "./components/AlarmsView";
 import { RingingOverlay } from "./components/RingingOverlay";
+import { StopwatchView } from "./components/StopwatchView";
+import { TimerView } from "./components/TimerView";
+import { PomodoroView } from "./components/PomodoroView";
 
-type Tab = "clock" | "alarms";
+type Tab = "clock" | "alarms" | "stopwatch" | "timer" | "pomodoro";
 
 export default function App() {
   const now = useNow(250);
@@ -29,11 +33,23 @@ export default function App() {
   const [alarms, setAlarms] = useState<Alarm[]>(() => loadAlarms());
   const [settings, setSettings] = useState<ClockSettings>(() => loadSettings());
   const [ringing, setRinging] = useState<Alarm | null>(null);
-  const snoozeTimer = useRef<number | undefined>(undefined);
+  // Alarms that fired while another was already ringing wait here and ring
+  // once the current one is dismissed/snoozed — so a new alarm never
+  // interrupts (or resets a puzzle) in front of you.
+  const ringingRef = useRef<Alarm | null>(null);
+  const queueRef = useRef<Alarm[]>([]);
+  // Bumped whenever an alarm actually fires, to re-arm the next OS wake.
+  const [fireTick, setFireTick] = useState(0);
 
   // Persist on change.
   useEffect(() => saveAlarms(alarms), [alarms]);
   useEffect(() => saveSettings(settings), [settings]);
+
+  // Keep a macOS wake armed for the earliest upcoming alarm (opt-in).
+  useEffect(() => {
+    if (settings.wakeFromSleep) void scheduleNextWake(alarms);
+    else void cancelScheduledWake();
+  }, [alarms, settings.wakeFromSleep, fireTick]);
 
   // Ask for notification permission up front so a firing alarm can post one.
   useEffect(() => {
@@ -52,18 +68,46 @@ export default function App() {
     };
   }, []);
 
-  const handleFire = useCallback((alarm: Alarm) => {
-    setRinging((current) => current ?? alarm); // don't override an active ring
-    // Surface the window (it may be hidden in the tray) and post a notification.
+  // Make an alarm the active ring — the one place side effects happen, so a
+  // queued or dropped alarm never notifies or disables itself prematurely.
+  const activate = useCallback((alarm: Alarm) => {
+    ringingRef.current = alarm;
+    setRinging(alarm);
+    setFireTick((t) => t + 1); // re-arm the next OS wake
     void surfaceWindow();
     void notifyAlarm(alarm);
-    // A one-time alarm turns itself off after firing.
+    // A one-time alarm turns itself off only once it actually rings.
     if (alarm.days.length === 0) {
       setAlarms((prev) =>
         prev.map((a) => (a.id === alarm.id ? { ...a, enabled: false } : a)),
       );
     }
   }, []);
+
+  const handleFire = useCallback(
+    (alarm: Alarm) => {
+      if (ringingRef.current === null) {
+        activate(alarm);
+      } else if (
+        ringingRef.current.id !== alarm.id &&
+        !queueRef.current.some((a) => a.id === alarm.id)
+      ) {
+        queueRef.current.push(alarm); // ring it after the current one
+      }
+    },
+    [activate],
+  );
+
+  // Move to the next queued alarm, or clear the overlay if none are waiting.
+  const advance = useCallback(() => {
+    const next = queueRef.current.shift();
+    if (next) {
+      activate(next);
+    } else {
+      ringingRef.current = null;
+      setRinging(null);
+    }
+  }, [activate]);
 
   useAlarmScheduler(alarms, now, handleFire);
 
@@ -84,20 +128,22 @@ export default function App() {
   const duplicate = (alarm: Alarm) =>
     setAlarms((prev) => [...prev, duplicateAlarm(alarm, prev)]);
 
-  const dismiss = () => {
-    if (snoozeTimer.current) window.clearTimeout(snoozeTimer.current);
-    setRinging(null);
+  // Test button: show the ringing overlay without notifying, disabling, or
+  // queueing. Keeps the ref in sync so dismiss/snooze behave normally.
+  const testRing = (alarm: Alarm) => {
+    ringingRef.current = alarm;
+    setRinging(alarm);
   };
 
+  const dismiss = () => advance();
+
   const snooze = () => {
-    if (!ringing) return;
-    const alarm = ringing;
-    setRinging(null);
-    if (snoozeTimer.current) window.clearTimeout(snoozeTimer.current);
-    snoozeTimer.current = window.setTimeout(
-      () => setRinging(alarm),
-      alarm.snoozeMinutes * 60_000,
-    );
+    const alarm = ringingRef.current;
+    if (!alarm) return;
+    // Re-fire through handleFire later so it queues politely if something
+    // else is ringing at that moment. Independent per-alarm timers.
+    window.setTimeout(() => handleFire(alarm), alarm.snoozeMinutes * 60_000);
+    advance();
   };
 
   return (
@@ -116,7 +162,24 @@ export default function App() {
         >
           <span className="nav-ico">⏰</span> Alarms
         </button>
-        <div className="nav-soon">Stopwatch · Timer · Pomodoro — soon</div>
+        <button
+          className={`nav-item ${tab === "stopwatch" ? "active" : ""}`}
+          onClick={() => setTab("stopwatch")}
+        >
+          <span className="nav-ico">⏱️</span> Stopwatch
+        </button>
+        <button
+          className={`nav-item ${tab === "timer" ? "active" : ""}`}
+          onClick={() => setTab("timer")}
+        >
+          <span className="nav-ico">⏳</span> Timer
+        </button>
+        <button
+          className={`nav-item ${tab === "pomodoro" ? "active" : ""}`}
+          onClick={() => setTab("pomodoro")}
+        >
+          <span className="nav-ico">🍅</span> Pomodoro
+        </button>
       </nav>
 
       <main className="content">
@@ -130,13 +193,29 @@ export default function App() {
             onDelete={deleteAlarm}
             onToggle={toggleAlarm}
             onDuplicate={duplicate}
-            onTest={setRinging}
+            onTest={testRing}
+            wakeFromSleep={settings.wakeFromSleep}
+            onToggleWake={(v) =>
+              setSettings((s) => ({ ...s, wakeFromSleep: v }))
+            }
           />
         )}
+        {/* Chrono tabs stay mounted so a running stopwatch/timer/pomodoro
+            keeps ticking while you're on another tab. */}
+        <div hidden={tab !== "stopwatch"}>
+          <StopwatchView />
+        </div>
+        <div hidden={tab !== "timer"}>
+          <TimerView />
+        </div>
+        <div hidden={tab !== "pomodoro"}>
+          <PomodoroView />
+        </div>
       </main>
 
       {ringing && (
         <RingingOverlay
+          key={ringing.id}
           alarm={ringing}
           now={now}
           onSnooze={snooze}
