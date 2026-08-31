@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Alarm } from "../types";
-import { DAY_LABELS } from "../types";
+import { DAY_LABELS, DEFAULT_PUZZLE } from "../types";
 import { AlarmEditor } from "./AlarmEditor";
 
 interface Props {
@@ -8,6 +8,7 @@ interface Props {
   onSave: (alarm: Alarm) => void;
   onDelete: (id: string) => void;
   onToggle: (id: string, enabled: boolean) => void;
+  onDuplicate: (alarm: Alarm) => void;
   onTest: (alarm: Alarm) => void;
 }
 
@@ -21,7 +22,9 @@ function newAlarm(): Alarm {
     enabled: true,
     days: [],
     trigger: { type: "beep" },
+    snoozeEnabled: true,
     snoozeMinutes: 5,
+    puzzle: { ...DEFAULT_PUZZLE },
   };
 }
 
@@ -57,6 +60,7 @@ export function AlarmsView({
   onSave,
   onDelete,
   onToggle,
+  onDuplicate,
   onTest,
 }: Props) {
   const [editing, setEditing] = useState<Alarm | null>(null);
@@ -99,6 +103,8 @@ export function AlarmsView({
                   <span className="alarm-label">{a.label || "Alarm"}</span>
                   <span className="alarm-sub">
                     {repeatSummary(a)} · {triggerSummary(a)}
+                    {a.puzzle?.enabled ? " · 🧩" : ""}
+                    {a.snoozeEnabled === false ? " · no snooze" : ""}
                   </span>
                 </div>
               </div>
@@ -109,6 +115,13 @@ export function AlarmsView({
                   onClick={() => onTest(a)}
                 >
                   ▶
+                </button>
+                <button
+                  className="icon-btn"
+                  title="Duplicate (next free 15-min slot)"
+                  onClick={() => onDuplicate(a)}
+                >
+                  ⧉
                 </button>
                 <label className="switch" title="Enable / disable">
                   <input

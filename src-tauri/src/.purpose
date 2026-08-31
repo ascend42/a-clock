@@ -2,6 +2,6 @@ version: 1.0.0
 description: Rust entry point and native plugin registration
 components:
   tauri-core:
-    description: Tauri application entry point; registers the opener and dialog plugins and enables the asset protocol so user-picked local media files can be played.
-    file: src-tauri/src/lib.rs
+    description: Tauri application entry point. Registers the opener, dialog, and notification plugins; enables the asset protocol for local media; builds a menu-bar tray (Show/Quit) and hides the window on close so the alarm scheduler keeps running in the background.
     type: core
+    file: src-tauri/src/lib.rs

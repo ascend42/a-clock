@@ -1,6 +1,11 @@
 import { useState } from "react";
-import type { Alarm, AlarmTrigger, TriggerType } from "../types";
-import { DAY_LABELS } from "../types";
+import type {
+  Alarm,
+  AlarmTrigger,
+  PuzzleDifficulty,
+  TriggerType,
+} from "../types";
+import { DAY_LABELS, DEFAULT_PUZZLE } from "../types";
 import { pickMediaFile } from "../lib/filepick";
 import { parseYouTubeId } from "../lib/youtube";
 import { TriggerPlayer } from "./TriggerPlayer";
@@ -20,6 +25,10 @@ export function AlarmEditor({ initial, onSave, onCancel }: Props) {
     setPreviewing(false); // any change restarts the preview cleanly
     setDraft((d) => ({ ...d, trigger: { ...d.trigger, ...patch } }));
   };
+
+  const puzzle = draft.puzzle ?? DEFAULT_PUZZLE;
+  const setPuzzle = (patch: Partial<typeof puzzle>) =>
+    setDraft((d) => ({ ...d, puzzle: { ...(d.puzzle ?? DEFAULT_PUZZLE), ...patch } }));
 
   const toggleDay = (day: number) =>
     setDraft((d) => ({
@@ -173,21 +182,80 @@ export function AlarmEditor({ initial, onSave, onCancel }: Props) {
           )}
         </div>
 
-        <label className="field">
-          <span>Snooze (minutes)</span>
-          <input
-            type="number"
-            min={1}
-            max={60}
-            value={draft.snoozeMinutes}
-            onChange={(e) =>
-              setDraft((d) => ({
-                ...d,
-                snoozeMinutes: Math.max(1, Number(e.target.value) || 1),
-              }))
-            }
-          />
-        </label>
+        <div className="field">
+          <span>Snooze</span>
+          <label className="toggle">
+            <input
+              type="checkbox"
+              checked={draft.snoozeEnabled !== false}
+              onChange={(e) =>
+                setDraft((d) => ({ ...d, snoozeEnabled: e.target.checked }))
+              }
+            />
+            Allow snoozing this alarm
+          </label>
+          {draft.snoozeEnabled !== false && (
+            <label className="inline-field">
+              <span>After</span>
+              <input
+                type="number"
+                min={1}
+                max={60}
+                value={draft.snoozeMinutes}
+                onChange={(e) =>
+                  setDraft((d) => ({
+                    ...d,
+                    snoozeMinutes: Math.max(1, Number(e.target.value) || 1),
+                  }))
+                }
+              />
+              <span>min</span>
+            </label>
+          )}
+        </div>
+
+        <div className="field">
+          <span>Puzzle to dismiss</span>
+          <label className="toggle">
+            <input
+              type="checkbox"
+              checked={puzzle.enabled}
+              onChange={(e) => setPuzzle({ enabled: e.target.checked })}
+            />
+            Require solving math problems to dismiss
+          </label>
+          {puzzle.enabled && (
+            <>
+              <label className="inline-field">
+                <span>Solve</span>
+                <input
+                  type="number"
+                  min={3}
+                  max={5}
+                  value={puzzle.count}
+                  onChange={(e) =>
+                    setPuzzle({
+                      count: Math.min(5, Math.max(3, Number(e.target.value) || 3)),
+                    })
+                  }
+                />
+                <span>problems</span>
+              </label>
+              <div className="segmented">
+                {(["easy", "medium", "hard"] as PuzzleDifficulty[]).map((d) => (
+                  <button
+                    key={d}
+                    type="button"
+                    className={puzzle.difficulty === d ? "active" : ""}
+                    onClick={() => setPuzzle({ difficulty: d })}
+                  >
+                    {d[0].toUpperCase() + d.slice(1)}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
 
         <div className="editor-actions">
           <button type="button" className="btn ghost" onClick={onCancel}>

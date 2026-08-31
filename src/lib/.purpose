@@ -15,5 +15,21 @@ components:
     file: src/lib/youtube.ts
   filepick:
     description: Opens the native Tauri file dialog for an audio/video file and classifies it as audio or video by extension.
+    type: lib
     file: src/lib/filepick.ts
+  native:
+    description: 'Native OS integration: request notification permission, post a macOS notification when an alarm fires, and surface (show/unminimize/focus) the window when it is hidden in the tray.'
+    type: lib
+    signals:
+      - '!alarm-fired'
+    file: src/lib/native.ts
+  alarm-utils:
+    description: 'Alarm helpers: nextFreeSlot rounds a time up to the next free 15-minute grid slot (skipping times already used), and duplicateAlarm clones an alarm into that slot with a fresh id.'
+    type: lib
+    flows:
+      - $alarm-lifecycle
+    file: src/lib/alarm.ts
+  puzzle:
+    description: Generates simple math problems by difficulty (easy add/subtract, medium multiply/larger sums, hard multiply-and-add) for the solve-to-dismiss gate.
+    file: src/lib/puzzle.ts
     type: lib

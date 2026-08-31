@@ -15,6 +15,16 @@ export interface AlarmTrigger {
   mediaKind?: MediaKind;
 }
 
+export type PuzzleDifficulty = "easy" | "medium" | "hard";
+
+export interface PuzzleConfig {
+  /** When true, dismissing requires solving math problems first. */
+  enabled: boolean;
+  /** Number of problems to solve (3-5). */
+  count: number;
+  difficulty: PuzzleDifficulty;
+}
+
 export interface Alarm {
   id: string;
   label: string;
@@ -24,8 +34,17 @@ export interface Alarm {
   /** Days of week to repeat on: 0=Sun ... 6=Sat. Empty array = one-time. */
   days: number[];
   trigger: AlarmTrigger;
+  snoozeEnabled: boolean;
   snoozeMinutes: number;
+  /** Optional "solve to dismiss" gate. Absent/disabled = normal one-tap dismiss. */
+  puzzle: PuzzleConfig;
 }
+
+export const DEFAULT_PUZZLE: PuzzleConfig = {
+  enabled: false,
+  count: 3,
+  difficulty: "easy",
+};
 
 export type ClockFace = "analog" | "digital";
 

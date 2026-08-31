@@ -1,0 +1,74 @@
+id: L-2026-08-31-ascend-075524-001
+type: milestone
+timestamp: '2026-08-31T07:55:24.562Z'
+author: ascend
+agent:
+  provider: anthropic
+  model: claude-opus-4-6
+title: 'a-clock: tray, notifications, duplicate, snooze toggle, puzzle-to-dismiss'
+summary: 'Second feature batch for a-clock. Added a macOS menu-bar tray so closing the window hides it and the alarm scheduler keeps running, native notifications (plus auto-surfacing a hidden window) when an alarm fires, and one-click alarm duplication that drops the copy at the next free 15-minute slot. Made snooze toggleable per alarm, and added an optional ''solve to dismiss'' puzzle gate: 3-5 simple math problems (easy/medium/hard) that pause the alarm sound while solving, regenerate on a wrong answer, and resume ringing after a 60s stall. Gate is dismiss-only so snooze stays a one-tap escape.'
+symbols_touched:
+  - '#tauri-core'
+  - '#native'
+  - '#alarm-utils'
+  - '#alarms-view'
+  - '#alarm-editor'
+  - '#ringing-overlay'
+  - '#puzzle'
+  - '#puzzle-gate'
+  - $alarm-lifecycle
+  - '!alarm-fired'
+symbols_created:
+  - '#native'
+  - '#alarm-utils'
+  - '#puzzle'
+  - '#puzzle-gate'
+files_created:
+  - src/lib/native.ts
+  - src/lib/alarm.ts
+  - src/lib/puzzle.ts
+  - src/components/PuzzleGate.tsx
+files_modified:
+  - src-tauri/src/lib.rs
+  - src-tauri/Cargo.toml
+  - src-tauri/capabilities/default.json
+  - src/App.tsx
+  - src/App.css
+  - src/types.ts
+  - src/components/AlarmsView.tsx
+  - src/components/AlarmEditor.tsx
+  - src/components/RingingOverlay.tsx
+  - package.json
+decisions:
+  - id: tray-hide-on-close
+    decision: Add a menu-bar tray and hide (not quit) the window on close
+    rationale: The alarm scheduler is an in-app JS timer, so the process must stay alive for alarms to fire; hiding keeps the webview (and timers) running while giving a Show/Quit path.
+  - id: duplicate-next-15
+    decision: Duplicate an alarm to the next free 15-minute grid slot instead of an exact copy
+    rationale: A duplicate sitting exactly on the original is useless; rounding up to the next unused :00/:15/:30/:45 makes duplication a fast way to build a series of alarms.
+  - id: puzzle-dismiss-only
+    decision: Puzzle gate blocks Dismiss only; Snooze stays free; sound pauses during solving with a 60s resume timeout and regenerating problems on wrong answers
+    rationale: 'User wants to be forced awake without being trapped: solving is required to fully stop the alarm, but a stall or wrong guess brings the sound back so it can''t be silently abandoned, and snooze remains an easy ''not yet''.'
+learnings:
+  - A React countdown effect that depends on a parent-supplied callback restarts every render when the parent re-renders on a timer; hold the callback in a ref and run the interval effect once ([]).
+  - Unmounting the media/beep player component is a clean way to pause alarm sound during the puzzle and auto-resume it on remount.
+  - Tauri 2 tray needs the 'tray-icon' cargo feature; notifications need the notification plugin plus notification:default and core:window show/focus permissions in capabilities.
+verification:
+  status: partial
+  details:
+    typecheck: pass
+    frontend-build: pass
+    tauri-dev-launch: pass
+    automated-tests: none
+tags:
+  - tauri
+  - tray
+  - notifications
+  - alarm
+  - puzzle
+  - mvp
+confidence: 0.85
+git_context:
+  ref: 373edf259270c3714daef2124c7fa51638e049f1
+  branch: main
+  dirty: true

@@ -37,7 +37,7 @@ components:
       - '#youtube'
     file: src/components/AlarmEditor.tsx
   ringing-overlay:
-    description: Full-screen alarm ringing surface; plays the trigger on loop with Snooze and Dismiss actions.
+    description: Full-screen alarm ringing surface; plays the trigger on loop with Dismiss and (when enabled) Snooze. When the alarm has a puzzle, Dismiss opens the solve-to-dismiss gate and the sound pauses until solved or timed out.
     type: view
     flows:
       - $alarm-lifecycle
@@ -46,11 +46,19 @@ components:
       - '!alarm-dismissed'
     components:
       - '#trigger-player'
+      - '#puzzle-gate'
     file: src/components/RingingOverlay.tsx
   trigger-player:
     description: 'Renders and loops the active trigger: a WebAudio beep, an embedded looping YouTube video, or a local audio/video element served via the Tauri asset protocol.'
-    file: src/components/TriggerPlayer.tsx
+    type: view
     components:
       - '#beep'
       - '#youtube'
+    file: src/components/TriggerPlayer.tsx
+  puzzle-gate:
+    description: 'Solve-to-dismiss overlay: N math problems with a countdown; solving all correctly dismisses the alarm, a wrong answer regenerates them, and running out of time resumes the ringing.'
     type: view
+    parent: '#ringing-overlay'
+    components:
+      - '#puzzle'
+    file: src/components/PuzzleGate.tsx

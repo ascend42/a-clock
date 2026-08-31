@@ -10,6 +10,12 @@ import {
   saveSettings,
 } from "./lib/storage";
 import { unlockAudio } from "./lib/beep";
+import { duplicateAlarm } from "./lib/alarm";
+import {
+  ensureNotificationPermission,
+  notifyAlarm,
+  surfaceWindow,
+} from "./lib/native";
 import { ClockView } from "./components/ClockView";
 import { AlarmsView } from "./components/AlarmsView";
 import { RingingOverlay } from "./components/RingingOverlay";
@@ -29,6 +35,11 @@ export default function App() {
   useEffect(() => saveAlarms(alarms), [alarms]);
   useEffect(() => saveSettings(settings), [settings]);
 
+  // Ask for notification permission up front so a firing alarm can post one.
+  useEffect(() => {
+    void ensureNotificationPermission();
+  }, []);
+
   // Keep audio unlocked: resume the AudioContext on the first user gesture so
   // an alarm hours later can still make sound.
   useEffect(() => {
@@ -43,6 +54,9 @@ export default function App() {
 
   const handleFire = useCallback((alarm: Alarm) => {
     setRinging((current) => current ?? alarm); // don't override an active ring
+    // Surface the window (it may be hidden in the tray) and post a notification.
+    void surfaceWindow();
+    void notifyAlarm(alarm);
     // A one-time alarm turns itself off after firing.
     if (alarm.days.length === 0) {
       setAlarms((prev) =>
@@ -66,6 +80,9 @@ export default function App() {
 
   const toggleAlarm = (id: string, enabled: boolean) =>
     setAlarms((prev) => prev.map((a) => (a.id === id ? { ...a, enabled } : a)));
+
+  const duplicate = (alarm: Alarm) =>
+    setAlarms((prev) => [...prev, duplicateAlarm(alarm, prev)]);
 
   const dismiss = () => {
     if (snoozeTimer.current) window.clearTimeout(snoozeTimer.current);
@@ -112,6 +129,7 @@ export default function App() {
             onSave={upsertAlarm}
             onDelete={deleteAlarm}
             onToggle={toggleAlarm}
+            onDuplicate={duplicate}
             onTest={setRinging}
           />
         )}

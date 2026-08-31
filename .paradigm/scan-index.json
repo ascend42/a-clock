@@ -2,7 +2,7 @@
   "$meta": {
     "version": "1.0.0",
     "project": "a-clock",
-    "generatedAt": "2026-08-31T07:34:32.911Z",
+    "generatedAt": "2026-08-31T07:53:48.578Z",
     "paradigmVersion": "0.1.0",
     "sources": {
       "purposeFiles": 6,
@@ -11,9 +11,9 @@
     },
     "componentTypes": {
       "core": 1,
-      "view": 6,
+      "view": 7,
       "hook": 2,
-      "lib": 4
+      "lib": 7
     }
   },
   "components": {
@@ -23,7 +23,7 @@
       "symbol": "#tauri-core",
       "category": "components",
       "path": "/Users/ascend/Documents/GitHub/a-clock/src-tauri/src/.purpose",
-      "description": "Tauri application entry point; registers the opener and dialog plugins and enables the asset protocol so user-picked local media files can be played.",
+      "description": "Tauri application entry point. Registers the opener, dialog, and notification plugins; enables the asset protocol for local media; builds a menu-bar tray (Show/Quit) and hides the window on close so the alarm scheduler keeps running in the background.",
       "visualTags": [],
       "related": [],
       "componentType": "core"
@@ -95,13 +95,14 @@
       "symbol": "#ringing-overlay",
       "category": "components",
       "path": "/Users/ascend/Documents/GitHub/a-clock/src/components/.purpose",
-      "description": "Full-screen alarm ringing surface; plays the trigger on loop with Snooze and Dismiss actions.",
+      "description": "Full-screen alarm ringing surface; plays the trigger on loop with Dismiss and (when enabled) Snooze. When the alarm has a puzzle, Dismiss opens the solve-to-dismiss gate and the sound pauses until solved or timed out.",
       "visualTags": [],
       "related": [
         "$alarm-lifecycle",
         "!alarm-snoozed",
         "!alarm-dismissed",
-        "#trigger-player"
+        "#trigger-player",
+        "#puzzle-gate"
       ],
       "componentType": "view"
     },
@@ -118,6 +119,21 @@
         "#youtube"
       ],
       "componentType": "view"
+    },
+    "puzzle-gate": {
+      "id": "puzzle-gate",
+      "name": "Puzzle Gate",
+      "symbol": "#puzzle-gate",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/components/.purpose",
+      "description": "Solve-to-dismiss overlay: N math problems with a countdown; solving all correctly dismisses the alarm, a wrong answer regenerates them, and running out of time resumes the ringing.",
+      "visualTags": [],
+      "related": [
+        "#ringing-overlay",
+        "#puzzle"
+      ],
+      "componentType": "view",
+      "parent": "#ringing-overlay"
     },
     "alarm-scheduler": {
       "id": "alarm-scheduler",
@@ -184,6 +200,43 @@
       "category": "components",
       "path": "/Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose",
       "description": "Opens the native Tauri file dialog for an audio/video file and classifies it as audio or video by extension.",
+      "visualTags": [],
+      "related": [],
+      "componentType": "lib"
+    },
+    "native": {
+      "id": "native",
+      "name": "Native",
+      "symbol": "#native",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose",
+      "description": "Native OS integration: request notification permission, post a macOS notification when an alarm fires, and surface (show/unminimize/focus) the window when it is hidden in the tray.",
+      "visualTags": [],
+      "related": [
+        "!alarm-fired"
+      ],
+      "componentType": "lib"
+    },
+    "alarm-utils": {
+      "id": "alarm-utils",
+      "name": "Alarm Utils",
+      "symbol": "#alarm-utils",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose",
+      "description": "Alarm helpers: nextFreeSlot rounds a time up to the next free 15-minute grid slot (skipping times already used), and duplicateAlarm clones an alarm into that slot with a fresh id.",
+      "visualTags": [],
+      "related": [
+        "$alarm-lifecycle"
+      ],
+      "componentType": "lib"
+    },
+    "puzzle": {
+      "id": "puzzle",
+      "name": "Puzzle",
+      "symbol": "#puzzle",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose",
+      "description": "Generates simple math problems by difficulty (easy add/subtract, medium multiply/larger sums, hard multiply-and-add) for the solve-to-dismiss gate.",
       "visualTags": [],
       "related": [],
       "componentType": "lib"
@@ -313,6 +366,10 @@
       "category": "components",
       "id": "trigger-player"
     },
+    "#puzzle-gate": {
+      "category": "components",
+      "id": "puzzle-gate"
+    },
     "#alarm-scheduler": {
       "category": "components",
       "id": "alarm-scheduler"
@@ -336,6 +393,18 @@
     "#filepick": {
       "category": "components",
       "id": "filepick"
+    },
+    "#native": {
+      "category": "components",
+      "id": "native"
+    },
+    "#alarm-utils": {
+      "category": "components",
+      "id": "alarm-utils"
+    },
+    "#puzzle": {
+      "category": "components",
+      "id": "puzzle"
     },
     "$alarm-lifecycle": {
       "category": "flows",

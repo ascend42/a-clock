@@ -442,6 +442,16 @@ textarea {
   border-color: var(--accent-2);
   color: white;
 }
+.inline-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--fg-dim);
+}
+.inline-field input {
+  width: 72px;
+}
 .hint {
   font-size: 12px;
   color: var(--fg-dim);
@@ -552,4 +562,89 @@ textarea {
   display: flex;
   gap: 16px;
   margin-top: 8px;
+}
+
+/* ---------- Puzzle gate ---------- */
+.puzzle {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 28px;
+  width: min(90vw, 440px);
+}
+.puzzle-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.puzzle-head h2 {
+  margin: 0;
+  font-size: 20px;
+}
+.puzzle-timer {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 14px;
+}
+.puzzle-problems {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.puzzle-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.puzzle-prompt {
+  flex: 1;
+  text-align: right;
+  font-size: 24px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.puzzle-row input {
+  width: 120px;
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border);
+  color: var(--fg);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 20px;
+  font-variant-numeric: tabular-nums;
+}
+.puzzle-error {
+  color: var(--danger);
+  font-size: 14px;
+  text-align: center;
+}
+.puzzle-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.shake {
+  animation: shake 0.4s ease;
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-8px);
+  }
+  40%,
+  80% {
+    transform: translateX(8px);
+  }
 }
