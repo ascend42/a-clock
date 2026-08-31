@@ -26,7 +26,7 @@ components:
       - '#alarm-editor'
     file: src/components/AlarmsView.tsx
   alarm-editor:
-    description: 'Create/edit an alarm: time, label, repeat days, snooze, and trigger (beep/YouTube/file) with an inline test.'
+    description: 'Create/edit an alarm: time, label, repeat days, snooze toggle, trigger (beep/YouTube/file), and an optional solve-to-dismiss puzzle. Provides inline testing for both the sound and the puzzle problems before saving.'
     type: view
     parent: '#alarms-view'
     flows:
@@ -35,6 +35,7 @@ components:
       - '#trigger-player'
       - '#filepick'
       - '#youtube'
+      - '#puzzle-gate'
     file: src/components/AlarmEditor.tsx
   ringing-overlay:
     description: Full-screen alarm ringing surface; plays the trigger on loop with Dismiss and (when enabled) Snooze. When the alarm has a puzzle, Dismiss opens the solve-to-dismiss gate and the sound pauses until solved or timed out.

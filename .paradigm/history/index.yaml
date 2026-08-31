@@ -1,5 +1,5 @@
 version: '1.0'
-generated: '2026-08-31T07:34:42.346Z'
+generated: '2026-08-31T07:55:43.066Z'
 by_symbol:
   '!alarm-dismissed':
     symbol: '!alarm-dismissed'
@@ -193,11 +193,68 @@ by_symbol:
       agent: []
   '!alarm-fired':
     symbol: '!alarm-fired'
-    total_changes: 1
-    last_modified: '2026-08-31T07:34:35Z'
+    total_changes: 2
+    last_modified: '2026-08-31T07:55:42Z'
     stability_score: 1
     fragility: low
     recent:
+      - &ref_1
+        id: h0002
+        ts: '2026-08-31T07:55:42Z'
+        type: implement
+        symbols:
+          - '!alarm-fired'
+          - '#alarm-editor'
+          - '#alarm-utils'
+          - '#alarms-view'
+          - '#native'
+          - '#puzzle'
+          - '#puzzle-gate'
+          - '#ringing-overlay'
+          - '#tauri-core'
+          - $alarm-lifecycle
+        author:
+          type: human
+          id: ascend
+        commit: cf92ada334e2a272c4ece9ad634108f0978ece8a
+        intent: feature
+        files:
+          - .paradigm/aspect-graph.db
+          - .paradigm/events/compliance-history.jsonl
+          - .paradigm/events/debates.jsonl
+          - .paradigm/events/nominations.jsonl
+          - .paradigm/events/stream.jsonl
+          - .paradigm/flow-index.json
+          - .paradigm/history/index.yaml
+          - .paradigm/history/log.jsonl
+          - .paradigm/lore/entries/2026-08-31/L-2026-08-31-ascend-075524-001.lore
+          - .paradigm/lore/timeline.yaml
+          - .paradigm/manifest.consistency.json
+          - .paradigm/navigator.yaml
+          - .paradigm/personas/index.yaml
+          - .paradigm/scan-index.json
+          - .paradigm/session-breadcrumbs.json
+          - .paradigm/university/index.yaml
+          - package-lock.json
+          - package.json
+          - src-tauri/Cargo.lock
+          - src-tauri/Cargo.toml
+          - src-tauri/capabilities/default.json
+          - src-tauri/src/.purpose
+          - src-tauri/src/lib.rs
+          - src/App.css
+          - src/App.tsx
+          - src/components/.purpose
+          - src/components/AlarmEditor.tsx
+          - src/components/AlarmsView.tsx
+          - src/components/PuzzleGate.tsx
+          - src/components/RingingOverlay.tsx
+          - src/lib/.purpose
+          - src/lib/alarm.ts
+          - src/lib/native.ts
+          - src/lib/puzzle.ts
+          - src/types.ts
+        description: 'feat(#ringing-overlay): tray, notifications, duplicate, snooze toggle, puzzle-to-dismiss'
       - *ref_0
     contributors:
       human:
@@ -217,11 +274,12 @@ by_symbol:
       agent: []
   '#alarm-editor':
     symbol: '#alarm-editor'
-    total_changes: 1
-    last_modified: '2026-08-31T07:34:35Z'
+    total_changes: 2
+    last_modified: '2026-08-31T07:55:42Z'
     stability_score: 1
     fragility: low
     recent:
+      - *ref_1
       - *ref_0
     contributors:
       human:
@@ -241,11 +299,12 @@ by_symbol:
       agent: []
   '#alarms-view':
     symbol: '#alarms-view'
-    total_changes: 1
-    last_modified: '2026-08-31T07:34:35Z'
+    total_changes: 2
+    last_modified: '2026-08-31T07:55:42Z'
     stability_score: 1
     fragility: low
     recent:
+      - *ref_1
       - *ref_0
     contributors:
       human:
@@ -301,11 +360,12 @@ by_symbol:
       agent: []
   '#ringing-overlay':
     symbol: '#ringing-overlay'
-    total_changes: 1
-    last_modified: '2026-08-31T07:34:35Z'
+    total_changes: 2
+    last_modified: '2026-08-31T07:55:42Z'
     stability_score: 1
     fragility: low
     recent:
+      - *ref_1
       - *ref_0
     contributors:
       human:
@@ -325,11 +385,12 @@ by_symbol:
       agent: []
   '#tauri-core':
     symbol: '#tauri-core'
-    total_changes: 1
-    last_modified: '2026-08-31T07:34:35Z'
+    total_changes: 2
+    last_modified: '2026-08-31T07:55:42Z'
     stability_score: 1
     fragility: low
     recent:
+      - *ref_1
       - *ref_0
     contributors:
       human:
@@ -373,11 +434,12 @@ by_symbol:
       agent: []
   $alarm-lifecycle:
     symbol: $alarm-lifecycle
-    total_changes: 1
-    last_modified: '2026-08-31T07:34:35Z'
+    total_changes: 2
+    last_modified: '2026-08-31T07:55:42Z'
     stability_score: 1
     fragility: low
     recent:
+      - *ref_1
       - *ref_0
     contributors:
       human:
@@ -403,6 +465,54 @@ by_symbol:
     fragility: low
     recent:
       - *ref_0
+    contributors:
+      human:
+        - ascend
+      agent: []
+  '#alarm-utils':
+    symbol: '#alarm-utils'
+    total_changes: 1
+    last_modified: '2026-08-31T07:55:42Z'
+    stability_score: 1
+    fragility: low
+    recent:
+      - *ref_1
+    contributors:
+      human:
+        - ascend
+      agent: []
+  '#native':
+    symbol: '#native'
+    total_changes: 1
+    last_modified: '2026-08-31T07:55:42Z'
+    stability_score: 1
+    fragility: low
+    recent:
+      - *ref_1
+    contributors:
+      human:
+        - ascend
+      agent: []
+  '#puzzle':
+    symbol: '#puzzle'
+    total_changes: 1
+    last_modified: '2026-08-31T07:55:42Z'
+    stability_score: 1
+    fragility: low
+    recent:
+      - *ref_1
+    contributors:
+      human:
+        - ascend
+      agent: []
+  '#puzzle-gate':
+    symbol: '#puzzle-gate'
+    total_changes: 1
+    last_modified: '2026-08-31T07:55:42Z'
+    stability_score: 1
+    fragility: low
+    recent:
+      - *ref_1
     contributors:
       human:
         - ascend

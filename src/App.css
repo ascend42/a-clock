@@ -631,6 +631,19 @@ textarea {
   justify-content: flex-end;
   gap: 10px;
 }
+/* Puzzle rendered inside the editor as a preview */
+.puzzle-preview .puzzle {
+  width: 100%;
+  padding: 16px 18px;
+  background: var(--bg-elev-2);
+}
+.puzzle-preview .puzzle-prompt {
+  font-size: 20px;
+}
+.puzzle-preview .puzzle-row input {
+  width: 96px;
+  font-size: 18px;
+}
 .shake {
   animation: shake 0.4s ease;
 }

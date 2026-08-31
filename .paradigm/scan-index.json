@@ -2,7 +2,7 @@
   "$meta": {
     "version": "1.0.0",
     "project": "a-clock",
-    "generatedAt": "2026-08-31T07:53:48.578Z",
+    "generatedAt": "2026-08-31T07:59:24.664Z",
     "paradigmVersion": "0.1.0",
     "sources": {
       "purposeFiles": 6,
@@ -77,14 +77,15 @@
       "symbol": "#alarm-editor",
       "category": "components",
       "path": "/Users/ascend/Documents/GitHub/a-clock/src/components/.purpose",
-      "description": "Create/edit an alarm: time, label, repeat days, snooze, and trigger (beep/YouTube/file) with an inline test.",
+      "description": "Create/edit an alarm: time, label, repeat days, snooze toggle, trigger (beep/YouTube/file), and an optional solve-to-dismiss puzzle. Provides inline testing for both the sound and the puzzle problems before saving.",
       "visualTags": [],
       "related": [
         "#alarms-view",
         "$trigger-preview",
         "#trigger-player",
         "#filepick",
-        "#youtube"
+        "#youtube",
+        "#puzzle-gate"
       ],
       "componentType": "view",
       "parent": "#alarms-view"

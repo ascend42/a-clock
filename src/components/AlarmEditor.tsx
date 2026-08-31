@@ -9,6 +9,7 @@ import { DAY_LABELS, DEFAULT_PUZZLE } from "../types";
 import { pickMediaFile } from "../lib/filepick";
 import { parseYouTubeId } from "../lib/youtube";
 import { TriggerPlayer } from "./TriggerPlayer";
+import { PuzzleGate } from "./PuzzleGate";
 
 interface Props {
   initial: Alarm;
@@ -20,6 +21,13 @@ export function AlarmEditor({ initial, onSave, onCancel }: Props) {
   const [draft, setDraft] = useState<Alarm>(initial);
   const [fileError, setFileError] = useState<string | null>(null);
   const [previewing, setPreviewing] = useState(false);
+  const [tryingPuzzle, setTryingPuzzle] = useState(false);
+  const [puzzleMsg, setPuzzleMsg] = useState<string | null>(null);
+
+  const flashPuzzleMsg = (msg: string) => {
+    setPuzzleMsg(msg);
+    window.setTimeout(() => setPuzzleMsg(null), 2500);
+  };
 
   const setTrigger = (patch: Partial<AlarmTrigger>) => {
     setPreviewing(false); // any change restarts the preview cleanly
@@ -253,6 +261,38 @@ export function AlarmEditor({ initial, onSave, onCancel }: Props) {
                   </button>
                 ))}
               </div>
+
+              <button
+                type="button"
+                className={`btn ${tryingPuzzle ? "danger-outline" : ""}`}
+                onClick={() => {
+                  setPuzzleMsg(null);
+                  setTryingPuzzle((t) => !t);
+                }}
+              >
+                {tryingPuzzle ? "■ Close preview" : "🧩 Try these problems"}
+              </button>
+              {puzzleMsg && <small className="hint">{puzzleMsg}</small>}
+
+              {tryingPuzzle && (
+                <div className="puzzle-preview">
+                  <PuzzleGate
+                    key={`${puzzle.count}-${puzzle.difficulty}`}
+                    count={puzzle.count}
+                    difficulty={puzzle.difficulty}
+                    snoozeLabel={null}
+                    onSolved={() => {
+                      setTryingPuzzle(false);
+                      flashPuzzleMsg("✓ Solved — that's the drill.");
+                    }}
+                    onAbort={() => {
+                      setTryingPuzzle(false);
+                      flashPuzzleMsg("⏱ Timed out — a real alarm would resume.");
+                    }}
+                    onSnooze={() => setTryingPuzzle(false)}
+                  />
+                </div>
+              )}
             </>
           )}
         </div>

@@ -1,0 +1,32 @@
+id: L-2026-08-31-ascend-080125-001
+type: milestone
+timestamp: '2026-08-31T08:01:25.180Z'
+author: ascend
+agent:
+  provider: anthropic
+  model: claude-opus-4-6
+title: 'a-clock: inline puzzle preview in the alarm editor'
+summary: 'Added a ''Try these problems'' button in the alarm editor''s puzzle section that runs the real PuzzleGate inline so the user can experience the exact math problems for the current count/difficulty without waiting for an alarm. Solving or timing out closes the preview with a status note; changing count/difficulty regenerates via a React key. Reuses the existing #puzzle-gate component in a no-alarm test mode.'
+symbols_touched:
+  - '#alarm-editor'
+  - '#puzzle-gate'
+  - $trigger-preview
+files_modified:
+  - src/components/AlarmEditor.tsx
+  - src/App.css
+verification:
+  status: partial
+  details:
+    typecheck: pass
+    frontend-build: pass
+    automated-tests: none
+tags:
+  - puzzle
+  - alarm
+  - preview
+  - ux
+confidence: 0.9
+git_context:
+  ref: cf92ada334e2a272c4ece9ad634108f0978ece8a
+  branch: main
+  dirty: true
