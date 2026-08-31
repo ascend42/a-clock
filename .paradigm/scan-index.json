@@ -1,0 +1,365 @@
+{
+  "$meta": {
+    "version": "1.0.0",
+    "project": "a-clock",
+    "generatedAt": "2026-08-31T07:34:32.911Z",
+    "paradigmVersion": "0.1.0",
+    "sources": {
+      "purposeFiles": 6,
+      "portalFiles": 1,
+      "premiseFiles": 0
+    },
+    "componentTypes": {
+      "core": 1,
+      "view": 6,
+      "hook": 2,
+      "lib": 4
+    }
+  },
+  "components": {
+    "tauri-core": {
+      "id": "tauri-core",
+      "name": "Tauri Core",
+      "symbol": "#tauri-core",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src-tauri/src/.purpose",
+      "description": "Tauri application entry point; registers the opener and dialog plugins and enables the asset protocol so user-picked local media files can be played.",
+      "visualTags": [],
+      "related": [],
+      "componentType": "core"
+    },
+    "clock-view": {
+      "id": "clock-view",
+      "name": "Clock View",
+      "symbol": "#clock-view",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/components/.purpose",
+      "description": "Clock display surface: analog face or digital/numerical readout with 24-hour and seconds toggles.",
+      "visualTags": [],
+      "related": [
+        "$clock-display",
+        "#analog-clock"
+      ],
+      "componentType": "view"
+    },
+    "analog-clock": {
+      "id": "analog-clock",
+      "name": "Analog Clock",
+      "symbol": "#analog-clock",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/components/.purpose",
+      "description": "SVG analog clock face with hour/minute/second hands and tick marks.",
+      "visualTags": [],
+      "related": [
+        "#clock-view"
+      ],
+      "componentType": "view",
+      "parent": "#clock-view"
+    },
+    "alarms-view": {
+      "id": "alarms-view",
+      "name": "Alarms View",
+      "symbol": "#alarms-view",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/components/.purpose",
+      "description": "Lists alarms; create, edit, enable/disable, delete, and test each one.",
+      "visualTags": [],
+      "related": [
+        "$alarm-lifecycle",
+        "$trigger-preview",
+        "#alarm-editor"
+      ],
+      "componentType": "view"
+    },
+    "alarm-editor": {
+      "id": "alarm-editor",
+      "name": "Alarm Editor",
+      "symbol": "#alarm-editor",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/components/.purpose",
+      "description": "Create/edit an alarm: time, label, repeat days, snooze, and trigger (beep/YouTube/file) with an inline test.",
+      "visualTags": [],
+      "related": [
+        "#alarms-view",
+        "$trigger-preview",
+        "#trigger-player",
+        "#filepick",
+        "#youtube"
+      ],
+      "componentType": "view",
+      "parent": "#alarms-view"
+    },
+    "ringing-overlay": {
+      "id": "ringing-overlay",
+      "name": "Ringing Overlay",
+      "symbol": "#ringing-overlay",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/components/.purpose",
+      "description": "Full-screen alarm ringing surface; plays the trigger on loop with Snooze and Dismiss actions.",
+      "visualTags": [],
+      "related": [
+        "$alarm-lifecycle",
+        "!alarm-snoozed",
+        "!alarm-dismissed",
+        "#trigger-player"
+      ],
+      "componentType": "view"
+    },
+    "trigger-player": {
+      "id": "trigger-player",
+      "name": "Trigger Player",
+      "symbol": "#trigger-player",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/components/.purpose",
+      "description": "Renders and loops the active trigger: a WebAudio beep, an embedded looping YouTube video, or a local audio/video element served via the Tauri asset protocol.",
+      "visualTags": [],
+      "related": [
+        "#beep",
+        "#youtube"
+      ],
+      "componentType": "view"
+    },
+    "alarm-scheduler": {
+      "id": "alarm-scheduler",
+      "name": "Alarm Scheduler",
+      "symbol": "#alarm-scheduler",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/hooks/.purpose",
+      "description": "Watches the ticking clock and fires each enabled alarm once per calendar minute, honoring repeat-day filters and deduping missed ticks.",
+      "visualTags": [],
+      "related": [
+        "$alarm-lifecycle",
+        "!alarm-fired"
+      ],
+      "componentType": "hook"
+    },
+    "use-now": {
+      "id": "use-now",
+      "name": "Use Now",
+      "symbol": "#use-now",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/hooks/.purpose",
+      "description": "Returns the current Date, refreshed on an interval; the single time source shared by the clock display and the alarm scheduler.",
+      "visualTags": [],
+      "related": [],
+      "componentType": "hook"
+    },
+    "storage": {
+      "id": "storage",
+      "name": "Storage",
+      "symbol": "#storage",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose",
+      "description": "Loads and saves alarms and clock settings to localStorage; fails safe when storage is unavailable.",
+      "visualTags": [],
+      "related": [],
+      "componentType": "lib"
+    },
+    "beep": {
+      "id": "beep",
+      "name": "Beep",
+      "symbol": "#beep",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose",
+      "description": "WebAudio looping beeper plus an audio-unlock helper: resuming the AudioContext on a user gesture so an alarm hours later can still make sound.",
+      "visualTags": [],
+      "related": [],
+      "componentType": "lib"
+    },
+    "youtube": {
+      "id": "youtube",
+      "name": "Youtube",
+      "symbol": "#youtube",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose",
+      "description": "Parses YouTube video IDs from many URL shapes (watch, youtu.be, embed, shorts, live, bare id) and builds a looping autoplay embed URL.",
+      "visualTags": [],
+      "related": [],
+      "componentType": "lib"
+    },
+    "filepick": {
+      "id": "filepick",
+      "name": "Filepick",
+      "symbol": "#filepick",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose",
+      "description": "Opens the native Tauri file dialog for an audio/video file and classifies it as audio or video by extension.",
+      "visualTags": [],
+      "related": [],
+      "componentType": "lib"
+    }
+  },
+  "features": {},
+  "flows": {
+    "alarm-lifecycle": {
+      "id": "alarm-lifecycle",
+      "name": "Alarm Lifecycle",
+      "symbol": "$alarm-lifecycle",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/.purpose",
+      "description": "From creating an alarm through it ringing to being snoozed or dismissed.",
+      "steps": [
+        {
+          "id": "alarm-lifecycle-step-0",
+          "name": "create",
+          "target": "#alarm-editor",
+          "description": "User sets time, repeat days, snooze, and a trigger",
+          "order": 0
+        },
+        {
+          "id": "alarm-lifecycle-step-1",
+          "name": "match",
+          "target": "#alarm-scheduler",
+          "description": "Scheduler matches current time and fires the alarm",
+          "order": 1
+        },
+        {
+          "id": "alarm-lifecycle-step-2",
+          "name": "ring",
+          "target": "#ringing-overlay",
+          "description": "Full-screen overlay plays the trigger on loop",
+          "order": 2
+        },
+        {
+          "id": "alarm-lifecycle-step-3",
+          "name": "resolve",
+          "target": "#ringing-overlay",
+          "description": "User snoozes (re-rings later) or dismisses",
+          "order": 3
+        }
+      ]
+    },
+    "clock-display": {
+      "id": "clock-display",
+      "name": "Clock Display",
+      "symbol": "$clock-display",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/.purpose",
+      "description": "Render the live time as an analog face or a digital/numerical readout.",
+      "steps": []
+    },
+    "trigger-preview": {
+      "id": "trigger-preview",
+      "name": "Trigger Preview",
+      "symbol": "$trigger-preview",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/.purpose",
+      "description": "Test an alarm's sound/video before or without waiting for it to fire — from the editor inline, or the play button on a saved alarm card.",
+      "steps": []
+    }
+  },
+  "state": {},
+  "gates": {},
+  "signals": {
+    "alarm-fired": {
+      "id": "alarm-fired",
+      "name": "Alarm Fired",
+      "symbol": "!alarm-fired",
+      "category": "signals",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/.purpose",
+      "description": "An enabled alarm's scheduled time was reached; the ringing overlay opens and the trigger begins playing.",
+      "related": [
+        "#alarm-scheduler"
+      ]
+    },
+    "alarm-snoozed": {
+      "id": "alarm-snoozed",
+      "name": "Alarm Snoozed",
+      "symbol": "!alarm-snoozed",
+      "category": "signals",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/.purpose",
+      "description": "The user snoozed a ringing alarm; it re-rings after the alarm's snooze interval.",
+      "related": [
+        "#ringing-overlay"
+      ]
+    },
+    "alarm-dismissed": {
+      "id": "alarm-dismissed",
+      "name": "Alarm Dismissed",
+      "symbol": "!alarm-dismissed",
+      "category": "signals",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/.purpose",
+      "description": "The user dismissed a ringing alarm; the overlay closes and any pending snooze is cleared.",
+      "related": [
+        "#ringing-overlay"
+      ]
+    }
+  },
+  "aspects": {},
+  "screens": {},
+  "symbolMap": {
+    "#tauri-core": {
+      "category": "components",
+      "id": "tauri-core"
+    },
+    "#clock-view": {
+      "category": "components",
+      "id": "clock-view"
+    },
+    "#analog-clock": {
+      "category": "components",
+      "id": "analog-clock"
+    },
+    "#alarms-view": {
+      "category": "components",
+      "id": "alarms-view"
+    },
+    "#alarm-editor": {
+      "category": "components",
+      "id": "alarm-editor"
+    },
+    "#ringing-overlay": {
+      "category": "components",
+      "id": "ringing-overlay"
+    },
+    "#trigger-player": {
+      "category": "components",
+      "id": "trigger-player"
+    },
+    "#alarm-scheduler": {
+      "category": "components",
+      "id": "alarm-scheduler"
+    },
+    "#use-now": {
+      "category": "components",
+      "id": "use-now"
+    },
+    "#storage": {
+      "category": "components",
+      "id": "storage"
+    },
+    "#beep": {
+      "category": "components",
+      "id": "beep"
+    },
+    "#youtube": {
+      "category": "components",
+      "id": "youtube"
+    },
+    "#filepick": {
+      "category": "components",
+      "id": "filepick"
+    },
+    "$alarm-lifecycle": {
+      "category": "flows",
+      "id": "alarm-lifecycle"
+    },
+    "$clock-display": {
+      "category": "flows",
+      "id": "clock-display"
+    },
+    "$trigger-preview": {
+      "category": "flows",
+      "id": "trigger-preview"
+    },
+    "!alarm-fired": {
+      "category": "signals",
+      "id": "alarm-fired"
+    },
+    "!alarm-snoozed": {
+      "category": "signals",
+      "id": "alarm-snoozed"
+    },
+    "!alarm-dismissed": {
+      "category": "signals",
+      "id": "alarm-dismissed"
+    }
+  }
+}

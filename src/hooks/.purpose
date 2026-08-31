@@ -1,0 +1,15 @@
+version: 1.0.0
+description: Time source and alarm scheduling hooks
+components:
+  alarm-scheduler:
+    description: Watches the ticking clock and fires each enabled alarm once per calendar minute, honoring repeat-day filters and deduping missed ticks.
+    type: hook
+    flows:
+      - $alarm-lifecycle
+    signals:
+      - '!alarm-fired'
+    file: src/hooks/useAlarmScheduler.ts
+  use-now:
+    description: Returns the current Date, refreshed on an interval; the single time source shared by the clock display and the alarm scheduler.
+    file: src/hooks/useNow.ts
+    type: hook

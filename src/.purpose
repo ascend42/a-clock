@@ -1,0 +1,61 @@
+version: 1.0.0
+description: Cross-cutting flows and signals for a-clock
+context:
+  - Alarms fire via an in-app scheduler that only runs while the app window is open. Tray/background firing is a planned enhancement.
+signals:
+  alarm-fired:
+    description: An enabled alarm's scheduled time was reached; the ringing overlay opens and the trigger begins playing.
+    category: system
+    severity: info
+    emitters:
+      - '#alarm-scheduler'
+  alarm-snoozed:
+    description: The user snoozed a ringing alarm; it re-rings after the alarm's snooze interval.
+    category: system
+    severity: info
+    emitters:
+      - '#ringing-overlay'
+  alarm-dismissed:
+    description: The user dismissed a ringing alarm; the overlay closes and any pending snooze is cleared.
+    category: system
+    severity: info
+    emitters:
+      - '#ringing-overlay'
+flows:
+  alarm-lifecycle:
+    description: From creating an alarm through it ringing to being snoozed or dismissed.
+    signals:
+      - '!alarm-fired'
+      - '!alarm-snoozed'
+      - '!alarm-dismissed'
+    components:
+      - '#alarms-view'
+      - '#alarm-editor'
+      - '#alarm-scheduler'
+      - '#ringing-overlay'
+      - '#trigger-player'
+    steps:
+      - component: '#alarm-editor'
+        action: create
+        description: User sets time, repeat days, snooze, and a trigger
+      - component: '#alarm-scheduler'
+        action: match
+        description: Scheduler matches current time and fires the alarm
+      - component: '#ringing-overlay'
+        action: ring
+        description: Full-screen overlay plays the trigger on loop
+      - component: '#ringing-overlay'
+        action: resolve
+        description: User snoozes (re-rings later) or dismisses
+  clock-display:
+    description: Render the live time as an analog face or a digital/numerical readout.
+    components:
+      - '#clock-view'
+      - '#analog-clock'
+      - '#use-now'
+  trigger-preview:
+    description: Test an alarm's sound/video before or without waiting for it to fire — from the editor inline, or the play button on a saved alarm card.
+    components:
+      - '#alarm-editor'
+      - '#alarms-view'
+      - '#trigger-player'

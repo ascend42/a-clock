@@ -1,0 +1,183 @@
+{
+  "sessionId": "smtgvud0l",
+  "startTime": 1788159241317,
+  "lastActivity": 1788161573038,
+  "breadcrumbs": [
+    {
+      "timestamp": 1788161439884,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_init",
+      "summary": "purpose_init: src/components"
+    },
+    {
+      "timestamp": 1788161441392,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_init",
+      "summary": "purpose_init: src/hooks"
+    },
+    {
+      "timestamp": 1788161442843,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_init",
+      "summary": "purpose_init: src/lib"
+    },
+    {
+      "timestamp": 1788161444357,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_init",
+      "summary": "purpose_init: src-tauri/src"
+    },
+    {
+      "timestamp": 1788161445814,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_init",
+      "summary": "purpose_init: src"
+    },
+    {
+      "timestamp": 1788161453060,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src/components"
+    },
+    {
+      "timestamp": 1788161455615,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src/hooks"
+    },
+    {
+      "timestamp": 1788161457017,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src/lib"
+    },
+    {
+      "timestamp": 1788161459084,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src-tauri/src"
+    },
+    {
+      "timestamp": 1788161462769,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_flow",
+      "summary": "purpose_add_flow: src"
+    },
+    {
+      "timestamp": 1788161469127,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src/components"
+    },
+    {
+      "timestamp": 1788161471344,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src/hooks"
+    },
+    {
+      "timestamp": 1788161472837,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src/lib"
+    },
+    {
+      "timestamp": 1788161474337,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_flow",
+      "summary": "purpose_add_flow: src"
+    },
+    {
+      "timestamp": 1788161480166,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src/components"
+    },
+    {
+      "timestamp": 1788161483020,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src/lib"
+    },
+    {
+      "timestamp": 1788161484439,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_flow",
+      "summary": "purpose_add_flow: src"
+    },
+    {
+      "timestamp": 1788161489976,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src/components"
+    },
+    {
+      "timestamp": 1788161492304,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src/lib"
+    },
+    {
+      "timestamp": 1788161493664,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_signal",
+      "summary": "purpose_add_signal: src"
+    },
+    {
+      "timestamp": 1788161499315,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src/components"
+    },
+    {
+      "timestamp": 1788161500902,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_signal",
+      "summary": "purpose_add_signal: src"
+    },
+    {
+      "timestamp": 1788161506383,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src/components"
+    },
+    {
+      "timestamp": 1788161507766,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_signal",
+      "summary": "purpose_add_signal: src"
+    },
+    {
+      "timestamp": 1788161512079,
+      "action": "tool-call",
+      "tool": "paradigm_reindex",
+      "summary": "Rebuilt static index files"
+    },
+    {
+      "timestamp": 1788161513587,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_validate",
+      "summary": "purpose_validate"
+    },
+    {
+      "timestamp": 1788161528089,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_validate",
+      "summary": "purpose_validate"
+    },
+    {
+      "timestamp": 1788161572990,
+      "action": "tool-call",
+      "tool": "paradigm_pm_postflight",
+      "summary": "pm_postflight"
+    },
+    {
+      "timestamp": 1788161628419,
+      "action": "tool-call",
+      "tool": "paradigm_lore_record",
+      "summary": "lore_record: a-clock MVP: Tauri 2 clock + alarm with custom triggers"
+    }
+  ],
+  "symbolsModified": [],
+  "filesExplored": []
+}

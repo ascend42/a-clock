@@ -1,0 +1,19 @@
+version: 1.0.0
+description: Persistence, audio, YouTube parsing, and native file-picking utilities
+components:
+  storage:
+    description: Loads and saves alarms and clock settings to localStorage; fails safe when storage is unavailable.
+    type: lib
+    file: src/lib/storage.ts
+  beep:
+    description: 'WebAudio looping beeper plus an audio-unlock helper: resuming the AudioContext on a user gesture so an alarm hours later can still make sound.'
+    type: lib
+    file: src/lib/beep.ts
+  youtube:
+    description: Parses YouTube video IDs from many URL shapes (watch, youtu.be, embed, shorts, live, bare id) and builds a looping autoplay embed URL.
+    type: lib
+    file: src/lib/youtube.ts
+  filepick:
+    description: Opens the native Tauri file dialog for an audio/video file and classifies it as audio or video by extension.
+    file: src/lib/filepick.ts
+    type: lib

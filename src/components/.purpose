@@ -1,0 +1,56 @@
+version: 1.0.0
+description: React view components for the clock and alarm surfaces
+context:
+  - Presentational + interactive components. Alarm/clock state is owned by App.tsx and passed down via props.
+components:
+  clock-view:
+    description: 'Clock display surface: analog face or digital/numerical readout with 24-hour and seconds toggles.'
+    type: view
+    flows:
+      - $clock-display
+    components:
+      - '#analog-clock'
+    file: src/components/ClockView.tsx
+  analog-clock:
+    description: SVG analog clock face with hour/minute/second hands and tick marks.
+    type: view
+    parent: '#clock-view'
+    file: src/components/AnalogClock.tsx
+  alarms-view:
+    description: Lists alarms; create, edit, enable/disable, delete, and test each one.
+    type: view
+    flows:
+      - $alarm-lifecycle
+      - $trigger-preview
+    components:
+      - '#alarm-editor'
+    file: src/components/AlarmsView.tsx
+  alarm-editor:
+    description: 'Create/edit an alarm: time, label, repeat days, snooze, and trigger (beep/YouTube/file) with an inline test.'
+    type: view
+    parent: '#alarms-view'
+    flows:
+      - $trigger-preview
+    components:
+      - '#trigger-player'
+      - '#filepick'
+      - '#youtube'
+    file: src/components/AlarmEditor.tsx
+  ringing-overlay:
+    description: Full-screen alarm ringing surface; plays the trigger on loop with Snooze and Dismiss actions.
+    type: view
+    flows:
+      - $alarm-lifecycle
+    signals:
+      - '!alarm-snoozed'
+      - '!alarm-dismissed'
+    components:
+      - '#trigger-player'
+    file: src/components/RingingOverlay.tsx
+  trigger-player:
+    description: 'Renders and loops the active trigger: a WebAudio beep, an embedded looping YouTube video, or a local audio/video element served via the Tauri asset protocol.'
+    file: src/components/TriggerPlayer.tsx
+    components:
+      - '#beep'
+      - '#youtube'
+    type: view
