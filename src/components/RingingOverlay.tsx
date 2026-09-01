@@ -46,7 +46,7 @@ export function RingingOverlay({ alarm, now, onSnooze, onDismiss }: Props) {
         ) : (
           <>
             <div className="ringing-media">
-              <TriggerPlayer trigger={alarm.trigger} />
+              <TriggerPlayer trigger={alarm.trigger} autoOpen />
             </div>
 
             <div className="ringing-actions">

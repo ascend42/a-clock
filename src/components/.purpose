@@ -50,11 +50,12 @@ components:
       - '#puzzle-gate'
     file: src/components/RingingOverlay.tsx
   trigger-player:
-    description: 'Renders and loops the active trigger: a WebAudio beep, an embedded looping YouTube video, or a local audio/video element served via the Tauri asset protocol.'
+    description: 'Plays the active trigger: a WebAudio beep, a local audio/video element via the asset protocol, or a YouTube video. YouTube can''t be an inline iframe in a shipped webview (opaque origin -> Error 153), so on desktop it opens via the open_video command in a dedicated window loading the real watch page with an injected script that keeps it looping; mobile falls back to the system browser. Auto-plays when ringing.'
     type: view
     components:
       - '#beep'
       - '#youtube'
+      - '#tauri-core'
     file: src/components/TriggerPlayer.tsx
   puzzle-gate:
     description: 'Solve-to-dismiss overlay: N math problems with a countdown; solving all correctly dismisses the alarm, a wrong answer buzzes and regenerates them, and running out of time resumes the ringing.'

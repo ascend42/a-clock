@@ -754,6 +754,26 @@ textarea {
 .player-fallback {
   color: var(--danger);
 }
+.yt-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 32px;
+}
+.yt-logo {
+  font-size: 22px;
+  font-weight: 800;
+  color: #ff4444;
+  letter-spacing: -0.02em;
+}
+.yt-msg {
+  font-size: 15px;
+  color: var(--fg-dim);
+}
 .ringing-actions {
   display: flex;
   gap: 16px;

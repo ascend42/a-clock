@@ -2,6 +2,6 @@ version: 1.0.0
 description: Rust entry point and native plugin registration
 components:
   tauri-core:
-    description: Tauri entry point. Registers opener/dialog/notification plugins; enables the asset protocol; builds a menu-bar tray and hides the window on close so the scheduler keeps running. Exposes schedule_wake/cancel_wake commands that run pmset (via osascript admin prompt) to wake the Mac from sleep for alarms.
+    description: 'Tauri entry point. Registers opener/dialog/notification plugins; enables the asset protocol; desktop-only menu-bar tray with hide-on-close scoped to the main window. Commands: schedule_wake/cancel_wake (pmset wake-from-sleep) and open_video (dedicated looping YouTube window via an injected initialization script).'
     type: core
     file: src-tauri/src/lib.rs

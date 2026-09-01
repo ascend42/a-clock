@@ -2,7 +2,7 @@
   "$meta": {
     "version": "1.0.0",
     "project": "a-clock",
-    "generatedAt": "2026-08-31T17:06:34.400Z",
+    "generatedAt": "2026-09-01T22:06:36.472Z",
     "paradigmVersion": "0.1.0",
     "sources": {
       "purposeFiles": 6,
@@ -13,7 +13,7 @@
       "core": 1,
       "view": 10,
       "hook": 2,
-      "lib": 9
+      "lib": 10
     }
   },
   "components": {
@@ -23,7 +23,7 @@
       "symbol": "#tauri-core",
       "category": "components",
       "path": "/Users/ascend/Documents/GitHub/a-clock/src-tauri/src/.purpose",
-      "description": "Tauri entry point. Registers opener/dialog/notification plugins; enables the asset protocol; builds a menu-bar tray and hides the window on close so the scheduler keeps running. Exposes schedule_wake/cancel_wake commands that run pmset (via osascript admin prompt) to wake the Mac from sleep for alarms.",
+      "description": "Tauri entry point. Registers opener/dialog/notification plugins; enables the asset protocol; desktop-only menu-bar tray with hide-on-close scoped to the main window. Commands: schedule_wake/cancel_wake (pmset wake-from-sleep) and open_video (dedicated looping YouTube window via an injected initialization script).",
       "visualTags": [],
       "related": [],
       "componentType": "core"
@@ -113,11 +113,12 @@
       "symbol": "#trigger-player",
       "category": "components",
       "path": "/Users/ascend/Documents/GitHub/a-clock/src/components/.purpose",
-      "description": "Renders and loops the active trigger: a WebAudio beep, an embedded looping YouTube video, or a local audio/video element served via the Tauri asset protocol.",
+      "description": "Plays the active trigger: a WebAudio beep, a local audio/video element via the asset protocol, or a YouTube video. YouTube can't be an inline iframe in a shipped webview (opaque origin -> Error 153), so on desktop it opens via the open_video command in a dedicated window loading the real watch page with an injected script that keeps it looping; mobile falls back to the system browser. Auto-plays when ringing.",
       "visualTags": [],
       "related": [
         "#beep",
-        "#youtube"
+        "#youtube",
+        "#tauri-core"
       ],
       "componentType": "view"
     },
@@ -308,6 +309,21 @@
       "visualTags": [],
       "related": [
         "#tauri-core"
+      ],
+      "componentType": "lib"
+    },
+    "mobile-alarms": {
+      "id": "mobile-alarms",
+      "name": "Mobile Alarms",
+      "symbol": "#mobile-alarms",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose",
+      "description": "On iOS/Android, schedules each enabled alarm as an OS local notification (Schedule.at for one-time, weekly Schedule.interval per repeat day) so alarms fire when the app is backgrounded/locked. No-op on desktop. Detects mobile via userAgent.",
+      "visualTags": [],
+      "related": [
+        "$alarm-lifecycle",
+        "#wake",
+        "#native"
       ],
       "componentType": "lib"
     },
@@ -507,6 +523,10 @@
     "#wake": {
       "category": "components",
       "id": "wake"
+    },
+    "#mobile-alarms": {
+      "category": "components",
+      "id": "mobile-alarms"
     },
     "$alarm-lifecycle": {
       "category": "flows",

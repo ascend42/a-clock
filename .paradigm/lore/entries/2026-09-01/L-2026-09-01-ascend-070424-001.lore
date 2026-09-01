@@ -1,0 +1,53 @@
+id: L-2026-09-01-ascend-070424-001
+type: milestone
+timestamp: '2026-09-01T07:04:24.597Z'
+author: ascend
+agent:
+  provider: anthropic
+  model: claude-opus-4-6
+title: 'a-clock: native mobile alarm notifications + YouTube embed hardening'
+summary: Implemented mobile alarm firing via OS-scheduled local notifications (Tauri notification plugin Schedule.at for one-time, weekly Schedule.interval per repeat day) so alarms fire on iOS/Android when the app is backgrounded/locked; no-op on desktop where the tray + JS scheduler + pmset handle it. Also fixed a YouTube embed failure (Error 153, origin/referrer rejection) by hardening the embed URL (send window origin when http(s), switch to youtube-nocookie.com, add playsinline/modestbranding) and setting the iframe referrerPolicy, plus adding a reliable 'Open on YouTube' button that launches the video in the system browser via the opener plugin.
+symbols_touched:
+  - '#mobile-alarms'
+  - '#youtube'
+  - '#trigger-player'
+  - '#wake'
+  - '#native'
+  - $alarm-lifecycle
+symbols_created:
+  - '#mobile-alarms'
+files_created:
+  - src/lib/mobileAlarms.ts
+files_modified:
+  - src/App.tsx
+  - src/lib/youtube.ts
+  - src/components/TriggerPlayer.tsx
+  - src/App.css
+decisions:
+  - id: mobile-os-notifications
+    decision: Fire mobile alarms via OS-scheduled local notifications instead of the JS timer
+    rationale: Mobile OSes freeze background JS timers, so the in-app scheduler can't fire when the app is closed/locked. Handing each enabled alarm to the OS (one-shot or weekly interval) is the only way it reliably fires; the rich in-app overlay still runs when foreground.
+  - id: youtube-embed-fallback
+    decision: Harden the YouTube embed AND add an 'Open on YouTube' browser fallback
+    rationale: YouTube Error 153 is an origin/referrer rejection; a webview's custom-scheme origin is opaque so the embed is inherently unreliable off localhost. The origin/nocookie/referrer changes fix dev; the browser-open fallback guarantees the video always plays regardless of context.
+learnings:
+  - YouTube embed Error 153 stems from origin/referrer trust; sending a real http(s) origin + youtube-nocookie.com + a referrerPolicy helps on localhost, but a Tauri custom-scheme origin stays opaque so embeds remain flaky in the installed/mobile app — an openUrl-to-browser fallback is the dependable path.
+  - Tauri notification plugin ScheduleInterval weekday is 1=Sunday..7=Saturday (our model is 0=Sun..6=Sat, so add 1); notification ids must be 32-bit ints.
+  - Local audio/video files are the most reliable in-app alarm trigger across platforms; YouTube is best-effort.
+verification:
+  status: partial
+  details:
+    typecheck: pass
+    youtube-embed-runtime: untested-by-agent
+    mobile-notifications-runtime: untested-by-agent
+tags:
+  - mobile
+  - notifications
+  - youtube
+  - alarm
+  - tauri
+confidence: 0.75
+git_context:
+  ref: 7820e8fc67ee29cab518b15c4255b42678bbeba4
+  branch: main
+  dirty: true

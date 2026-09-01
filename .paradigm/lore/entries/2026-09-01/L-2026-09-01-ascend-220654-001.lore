@@ -1,0 +1,63 @@
+id: L-2026-09-01-ascend-220654-001
+type: milestone
+timestamp: '2026-09-01T22:06:54.001Z'
+author: ascend
+agent:
+  provider: anthropic
+  model: claude-opus-4-6
+title: 'a-clock: in-app looping YouTube window + KeepAlive always-on agent'
+summary: 'Resolved YouTube-as-alarm for the shipped app and made the app never-die. YouTube: inline iframes fail in a shipped webview (opaque tauri:// origin -> Error 153), and the /embed/ page errors when opened top-level too, so the app now opens the real watch page in a dedicated window via a new open_video Rust command, injecting an initialization script that keeps the HTML5 player looping (video.loop = true, reapplied each second). Scoped the hide-on-close behavior to the main window so the video window can actually close. Installed the app as a launchd KeepAlive LaunchAgent (auto-restarts on quit/crash, verified respawn in ~2s) replacing the simple login item, and cleared ~6.3 GB of safe build artifacts/caches to unblock builds.'
+symbols_touched:
+  - '#trigger-player'
+  - '#tauri-core'
+  - '#youtube'
+  - '#ringing-overlay'
+  - '#mobile-alarms'
+files_created:
+  - src/lib/mobileAlarms.ts
+  - ~/Library/LaunchAgents/com.ascend.a-clock.plist (local, not in repo)
+files_modified:
+  - src-tauri/src/lib.rs
+  - src-tauri/capabilities/default.json
+  - src/components/TriggerPlayer.tsx
+  - src/components/RingingOverlay.tsx
+  - src/lib/youtube.ts
+  - src/App.tsx
+  - src/App.css
+decisions:
+  - id: youtube-watch-window-loop
+    decision: Play YouTube in a dedicated window loading the watch page, with a Rust-injected script that sets video.loop=true
+    rationale: Inline embeds 153 in the shipped app, and the /embed/ page also errors top-level; the real watch page plays top-level, and injecting loop on the HTML5 element restores looping the URL can't provide.
+  - id: hide-on-close-main-only
+    decision: Scope hide-on-close to the main window
+    rationale: The global handler was intercepting the YouTube video window's close, so it could never be closed/dismissed.
+  - id: keepalive-agent
+    decision: Run the installed app as a launchd KeepAlive LaunchAgent instead of a login item
+    rationale: User needs a local instance that never stays dead; KeepAlive auto-restarts on quit/crash (verified ~2s respawn), unlike a login item which only starts at login.
+learnings:
+  - YouTube /embed/ throws Error 153 both as an iframe in an opaque-origin webview AND when opened top-level; the reliable path is the real watch page loaded top-level in a dedicated webview.
+  - 'Looping a YouTube video without the embed loop param: inject a script that sets the underlying <video> element''s loop=true and reapplies it on an interval.'
+  - WebviewWindow initialization scripts aren't exposed in the JS API — create the window from Rust (WebviewWindowBuilder::initialization_script) to inject page scripts.
+  - A global CloseRequested hide-handler must check window.label()=='main' or it traps auxiliary windows.
+  - launchd KeepAlive gives a true always-on GUI app (auto-restart); the tradeoff is the tray Quit relaunches, so provide launchctl bootout as the off-switch.
+verification:
+  status: pass
+  details:
+    cargo-check: pass
+    typecheck: pass
+    release-build: pass
+    installed-run: pass
+    keepalive-respawn: pass
+    youtube-loop: user-confirmed
+tags:
+  - youtube
+  - tauri
+  - launchd
+  - macos
+  - alarm
+  - webview
+confidence: 0.85
+git_context:
+  ref: 7820e8fc67ee29cab518b15c4255b42678bbeba4
+  branch: main
+  dirty: true

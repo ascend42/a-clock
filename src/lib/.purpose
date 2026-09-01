@@ -39,7 +39,16 @@ components:
     file: src/lib/format.ts
   wake:
     description: Schedules a macOS wake (via the schedule_wake Tauri command / pmset) ~30s before the earliest upcoming alarm so it fires from full sleep; deduped to avoid repeat admin prompts. Computes each alarm's next occurrence.
-    file: src/lib/wake.ts
+    type: lib
     components:
       - '#tauri-core'
+    file: src/lib/wake.ts
+  mobile-alarms:
+    description: On iOS/Android, schedules each enabled alarm as an OS local notification (Schedule.at for one-time, weekly Schedule.interval per repeat day) so alarms fire when the app is backgrounded/locked. No-op on desktop. Detects mobile via userAgent.
+    file: src/lib/mobileAlarms.ts
+    flows:
+      - $alarm-lifecycle
+    components:
+      - '#wake'
+      - '#native'
     type: lib

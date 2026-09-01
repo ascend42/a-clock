@@ -1,5 +1,5 @@
 version: '1.0'
-generated: '2026-08-31T17:06:34.402Z'
+generated: '2026-09-01T22:06:36.472Z'
 structure:
   components:
     paths:
@@ -55,4 +55,62 @@ skip_patterns:
     - '*.md'
     - README*
     - CHANGELOG*
-symbols: {}
+symbols:
+  '#purpose-component-tauri-core': /Users/ascend/Documents/GitHub/a-clock/src-tauri/src/.purpose
+  '#purpose-component-clock-view': /Users/ascend/Documents/GitHub/a-clock/src/components/.purpose
+  '#purpose-component-analog-clock': /Users/ascend/Documents/GitHub/a-clock/src/components/.purpose
+  '#purpose-component-alarms-view': /Users/ascend/Documents/GitHub/a-clock/src/components/.purpose
+  '#purpose-component-alarm-editor': /Users/ascend/Documents/GitHub/a-clock/src/components/.purpose
+  '#purpose-component-ringing-overlay': /Users/ascend/Documents/GitHub/a-clock/src/components/.purpose
+  '#purpose-component-trigger-player': /Users/ascend/Documents/GitHub/a-clock/src/components/.purpose
+  '#purpose-component-puzzle-gate': /Users/ascend/Documents/GitHub/a-clock/src/components/.purpose
+  '#purpose-component-stopwatch': /Users/ascend/Documents/GitHub/a-clock/src/components/.purpose
+  '#purpose-component-timer': /Users/ascend/Documents/GitHub/a-clock/src/components/.purpose
+  '#purpose-component-pomodoro': /Users/ascend/Documents/GitHub/a-clock/src/components/.purpose
+  '#purpose-component-alarm-scheduler': /Users/ascend/Documents/GitHub/a-clock/src/hooks/.purpose
+  '#purpose-component-use-now': /Users/ascend/Documents/GitHub/a-clock/src/hooks/.purpose
+  '#purpose-component-storage': /Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose
+  '#purpose-component-beep': /Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose
+  '#purpose-component-youtube': /Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose
+  '#purpose-component-filepick': /Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose
+  '#purpose-component-native': /Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose
+  '#purpose-component-alarm-utils': /Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose
+  '#purpose-component-puzzle': /Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose
+  '#purpose-component-format': /Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose
+  '#purpose-component-wake': /Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose
+  '#purpose-component-mobile-alarms': /Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose
+  $purpose-flow-alarm-lifecycle: /Users/ascend/Documents/GitHub/a-clock/src/.purpose
+  $purpose-flow-clock-display: /Users/ascend/Documents/GitHub/a-clock/src/.purpose
+  $purpose-flow-trigger-preview: /Users/ascend/Documents/GitHub/a-clock/src/.purpose
+  '!purpose-signal-alarm-fired': /Users/ascend/Documents/GitHub/a-clock/src/.purpose
+  '!purpose-signal-alarm-snoozed': /Users/ascend/Documents/GitHub/a-clock/src/.purpose
+  '!purpose-signal-alarm-dismissed': /Users/ascend/Documents/GitHub/a-clock/src/.purpose
+  '#purpose-ref-component-storage.': /Users/ascend/Documents/GitHub/a-clock/src/components/.purpose
+symbolsByComponentType:
+  core:
+    - '#tauri-core'
+  view:
+    - '#clock-view'
+    - '#analog-clock'
+    - '#alarms-view'
+    - '#alarm-editor'
+    - '#ringing-overlay'
+    - '#trigger-player'
+    - '#puzzle-gate'
+    - '#stopwatch'
+    - '#timer'
+    - '#pomodoro'
+  hook:
+    - '#alarm-scheduler'
+    - '#use-now'
+  lib:
+    - '#storage'
+    - '#beep'
+    - '#youtube'
+    - '#filepick'
+    - '#native'
+    - '#alarm-utils'
+    - '#puzzle'
+    - '#format'
+    - '#wake'
+    - '#mobile-alarms'

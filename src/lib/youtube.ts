@@ -36,6 +36,18 @@ export function youTubeEmbedUrl(id: string): string {
     playlist: id, // required for a single video to loop
     controls: "1",
     rel: "0",
+    playsinline: "1",
+    modestbranding: "1",
   });
-  return `https://www.youtube.com/embed/${id}?${params.toString()}`;
+  // A real web origin helps YouTube accept the embed (fixes many "153" errors).
+  // The Tauri custom-scheme origin is opaque, so only send it when http(s).
+  const origin =
+    typeof window !== "undefined" ? window.location.origin : "";
+  if (/^https?:/.test(origin)) params.set("origin", origin);
+  return `https://www.youtube-nocookie.com/embed/${id}?${params.toString()}`;
+}
+
+/** Plain watch URL for opening in the system browser as a fallback. */
+export function youTubeWatchUrl(id: string): string {
+  return `https://www.youtube.com/watch?v=${id}`;
 }

@@ -1,5 +1,5 @@
 version: '1.0'
-generated: '2026-08-31T14:56:43.616Z'
+generated: '2026-08-31T17:06:38.424Z'
 by_symbol:
   '!alarm-dismissed':
     symbol: '!alarm-dismissed'
@@ -483,11 +483,110 @@ by_symbol:
       agent: []
   '#tauri-core':
     symbol: '#tauri-core'
-    total_changes: 3
-    last_modified: '2026-08-31T14:56:42Z'
+    total_changes: 4
+    last_modified: '2026-08-31T17:06:37Z'
     stability_score: 1
     fragility: low
     recent:
+      - id: h0005
+        ts: '2026-08-31T17:06:37Z'
+        type: implement
+        symbols:
+          - '#tauri-core'
+        author:
+          type: human
+          id: ascend
+        commit: 7820e8fc67ee29cab518b15c4255b42678bbeba4
+        intent: feature
+        files:
+          - .paradigm/events/debates.jsonl
+          - .paradigm/events/nominations.jsonl
+          - .paradigm/events/stream.jsonl
+          - .paradigm/flow-index.json
+          - .paradigm/history/index.yaml
+          - .paradigm/history/log.jsonl
+          - .paradigm/lore/entries/2026-08-31/L-2026-08-31-ascend-170623-001.lore
+          - .paradigm/lore/timeline.yaml
+          - .paradigm/navigator.yaml
+          - .paradigm/scan-index.json
+          - .paradigm/session-breadcrumbs.json
+          - index.html
+          - src-tauri/gen/android/.editorconfig
+          - src-tauri/gen/android/.gitignore
+          - src-tauri/gen/android/app/.gitignore
+          - src-tauri/gen/android/app/build.gradle.kts
+          - src-tauri/gen/android/app/proguard-rules.pro
+          - src-tauri/gen/android/app/src/main/AndroidManifest.xml
+          - src-tauri/gen/android/app/src/main/java/com/ascend/a_clock/MainActivity.kt
+          - src-tauri/gen/android/app/src/main/res/drawable-v24/ic_launcher_foreground.xml
+          - src-tauri/gen/android/app/src/main/res/drawable/ic_launcher_background.xml
+          - src-tauri/gen/android/app/src/main/res/layout/activity_main.xml
+          - src-tauri/gen/android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+          - src-tauri/gen/android/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png
+          - src-tauri/gen/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png
+          - src-tauri/gen/android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+          - src-tauri/gen/android/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png
+          - src-tauri/gen/android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png
+          - src-tauri/gen/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+          - src-tauri/gen/android/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png
+          - src-tauri/gen/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png
+          - src-tauri/gen/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+          - src-tauri/gen/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png
+          - src-tauri/gen/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png
+          - src-tauri/gen/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+          - src-tauri/gen/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png
+          - src-tauri/gen/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
+          - src-tauri/gen/android/app/src/main/res/values-night/themes.xml
+          - src-tauri/gen/android/app/src/main/res/values/colors.xml
+          - src-tauri/gen/android/app/src/main/res/values/strings.xml
+          - src-tauri/gen/android/app/src/main/res/values/themes.xml
+          - src-tauri/gen/android/app/src/main/res/xml/file_paths.xml
+          - src-tauri/gen/android/build.gradle.kts
+          - src-tauri/gen/android/buildSrc/build.gradle.kts
+          - src-tauri/gen/android/buildSrc/src/main/java/com/ascend/a_clock/kotlin/BuildTask.kt
+          - src-tauri/gen/android/buildSrc/src/main/java/com/ascend/a_clock/kotlin/RustPlugin.kt
+          - src-tauri/gen/android/gradle.properties
+          - src-tauri/gen/android/gradle/wrapper/gradle-wrapper.jar
+          - src-tauri/gen/android/gradle/wrapper/gradle-wrapper.properties
+          - src-tauri/gen/android/gradlew
+          - src-tauri/gen/android/gradlew.bat
+          - src-tauri/gen/android/settings.gradle
+          - src-tauri/gen/apple/.gitignore
+          - src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-20x20@1x.png
+          - src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-20x20@2x-1.png
+          - src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-20x20@2x.png
+          - src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-20x20@3x.png
+          - src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-29x29@1x.png
+          - src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-29x29@2x-1.png
+          - src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-29x29@2x.png
+          - src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-29x29@3x.png
+          - src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-40x40@1x.png
+          - src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-40x40@2x-1.png
+          - src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-40x40@2x.png
+          - src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-40x40@3x.png
+          - src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png
+          - src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-60x60@2x.png
+          - src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-60x60@3x.png
+          - src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-76x76@1x.png
+          - src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-76x76@2x.png
+          - src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-83.5x83.5@2x.png
+          - src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/Contents.json
+          - src-tauri/gen/apple/Assets.xcassets/Contents.json
+          - src-tauri/gen/apple/ExportOptions.plist
+          - src-tauri/gen/apple/LaunchScreen.storyboard
+          - src-tauri/gen/apple/Podfile
+          - src-tauri/gen/apple/Sources/a-clock/bindings/bindings.h
+          - src-tauri/gen/apple/Sources/a-clock/main.mm
+          - src-tauri/gen/apple/a-clock.xcodeproj/project.pbxproj
+          - src-tauri/gen/apple/a-clock.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+          - src-tauri/gen/apple/a-clock.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+          - src-tauri/gen/apple/a-clock.xcodeproj/xcshareddata/xcschemes/a-clock_iOS.xcscheme
+          - src-tauri/gen/apple/a-clock_iOS/Info.plist
+          - src-tauri/gen/apple/a-clock_iOS/a-clock_iOS.entitlements
+          - src-tauri/gen/apple/project.yml
+          - src-tauri/src/lib.rs
+          - src/App.css
+        description: 'feat(#tauri-core): iOS + Android targets and responsive mobile layout'
       - *ref_2
       - *ref_1
       - *ref_0

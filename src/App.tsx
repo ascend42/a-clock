@@ -12,6 +12,7 @@ import {
 import { unlockAudio } from "./lib/beep";
 import { duplicateAlarm } from "./lib/alarm";
 import { scheduleNextWake, cancelScheduledWake } from "./lib/wake";
+import { isMobile, syncAlarmNotifications } from "./lib/mobileAlarms";
 import {
   ensureNotificationPermission,
   notifyAlarm,
@@ -45,11 +46,18 @@ export default function App() {
   useEffect(() => saveAlarms(alarms), [alarms]);
   useEffect(() => saveSettings(settings), [settings]);
 
-  // Keep a macOS wake armed for the earliest upcoming alarm (opt-in).
+  // Keep a macOS wake armed for the earliest upcoming alarm (desktop, opt-in).
   useEffect(() => {
+    if (isMobile()) return;
     if (settings.wakeFromSleep) void scheduleNextWake(alarms);
     else void cancelScheduledWake();
   }, [alarms, settings.wakeFromSleep, fireTick]);
+
+  // On mobile, hand alarms to the OS as scheduled notifications so they fire
+  // when the app is backgrounded/locked (background JS timers are frozen).
+  useEffect(() => {
+    void syncAlarmNotifications(alarms);
+  }, [alarms]);
 
   // Ask for notification permission up front so a firing alarm can post one.
   useEffect(() => {
