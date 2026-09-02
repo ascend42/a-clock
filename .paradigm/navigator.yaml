@@ -1,5 +1,5 @@
 version: '1.0'
-generated: '2026-09-01T22:06:36.472Z'
+generated: '2026-09-02T08:41:59.748Z'
 structure:
   components:
     paths:
@@ -77,7 +77,6 @@ symbols:
   '#purpose-component-alarm-utils': /Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose
   '#purpose-component-puzzle': /Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose
   '#purpose-component-format': /Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose
-  '#purpose-component-wake': /Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose
   '#purpose-component-mobile-alarms': /Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose
   $purpose-flow-alarm-lifecycle: /Users/ascend/Documents/GitHub/a-clock/src/.purpose
   $purpose-flow-clock-display: /Users/ascend/Documents/GitHub/a-clock/src/.purpose
@@ -112,5 +111,4 @@ symbolsByComponentType:
     - '#alarm-utils'
     - '#puzzle'
     - '#format'
-    - '#wake'
     - '#mobile-alarms'

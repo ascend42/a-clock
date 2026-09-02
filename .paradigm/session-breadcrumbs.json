@@ -1,44 +1,8 @@
 {
   "sessionId": "smtgvud0l",
   "startTime": 1788159241317,
-  "lastActivity": 1788300396489,
+  "lastActivity": 1788338519768,
   "breadcrumbs": [
-    {
-      "timestamp": 1788161483020,
-      "action": "tool-call",
-      "tool": "paradigm_purpose_add_component",
-      "summary": "purpose_add_component: src/lib"
-    },
-    {
-      "timestamp": 1788161484439,
-      "action": "tool-call",
-      "tool": "paradigm_purpose_add_flow",
-      "summary": "purpose_add_flow: src"
-    },
-    {
-      "timestamp": 1788161489976,
-      "action": "tool-call",
-      "tool": "paradigm_purpose_add_component",
-      "summary": "purpose_add_component: src/components"
-    },
-    {
-      "timestamp": 1788161492304,
-      "action": "tool-call",
-      "tool": "paradigm_purpose_add_component",
-      "summary": "purpose_add_component: src/lib"
-    },
-    {
-      "timestamp": 1788161493664,
-      "action": "tool-call",
-      "tool": "paradigm_purpose_add_signal",
-      "summary": "purpose_add_signal: src"
-    },
-    {
-      "timestamp": 1788161499315,
-      "action": "tool-call",
-      "tool": "paradigm_purpose_add_component",
-      "summary": "purpose_add_component: src/components"
-    },
     {
       "timestamp": 1788161500902,
       "action": "tool-call",
@@ -302,6 +266,42 @@
       "action": "tool-call",
       "tool": "paradigm_lore_record",
       "summary": "lore_record: a-clock: in-app looping YouTube window + KeepAlive always-on"
+    },
+    {
+      "timestamp": 1788331194023,
+      "action": "tool-call",
+      "tool": "paradigm_lore_record",
+      "summary": "lore_record: a-clock: stop wake-from-sleep admin-prompt nagging"
+    },
+    {
+      "timestamp": 1788338506836,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_remove",
+      "summary": "purpose_remove: src/lib"
+    },
+    {
+      "timestamp": 1788338509522,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src/lib"
+    },
+    {
+      "timestamp": 1788338512156,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src-tauri/src"
+    },
+    {
+      "timestamp": 1788338519692,
+      "action": "tool-call",
+      "tool": "paradigm_reindex",
+      "summary": "Rebuilt static index files"
+    },
+    {
+      "timestamp": 1788338564507,
+      "action": "tool-call",
+      "tool": "paradigm_lore_record",
+      "summary": "lore_record: a-clock: remove wake-from-sleep feature entirely (it blocked"
     }
   ],
   "symbolsModified": [],

@@ -2,7 +2,7 @@
   "$meta": {
     "version": "1.0.0",
     "project": "a-clock",
-    "generatedAt": "2026-09-01T22:06:36.472Z",
+    "generatedAt": "2026-09-02T08:41:59.747Z",
     "paradigmVersion": "0.1.0",
     "sources": {
       "purposeFiles": 6,
@@ -13,7 +13,7 @@
       "core": 1,
       "view": 10,
       "hook": 2,
-      "lib": 10
+      "lib": 9
     }
   },
   "components": {
@@ -23,7 +23,7 @@
       "symbol": "#tauri-core",
       "category": "components",
       "path": "/Users/ascend/Documents/GitHub/a-clock/src-tauri/src/.purpose",
-      "description": "Tauri entry point. Registers opener/dialog/notification plugins; enables the asset protocol; desktop-only menu-bar tray with hide-on-close scoped to the main window. Commands: schedule_wake/cancel_wake (pmset wake-from-sleep) and open_video (dedicated looping YouTube window via an injected initialization script).",
+      "description": "Tauri entry point. Registers opener/dialog/notification plugins; enables the asset protocol; desktop-only menu-bar tray with hide-on-close scoped to the main window. Exposes the open_video command (dedicated looping YouTube window via an injected initialization script). No wake/pmset code — that feature was removed.",
       "visualTags": [],
       "related": [],
       "componentType": "core"
@@ -299,30 +299,16 @@
       "related": [],
       "componentType": "lib"
     },
-    "wake": {
-      "id": "wake",
-      "name": "Wake",
-      "symbol": "#wake",
-      "category": "components",
-      "path": "/Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose",
-      "description": "Schedules a macOS wake (via the schedule_wake Tauri command / pmset) ~30s before the earliest upcoming alarm so it fires from full sleep; deduped to avoid repeat admin prompts. Computes each alarm's next occurrence.",
-      "visualTags": [],
-      "related": [
-        "#tauri-core"
-      ],
-      "componentType": "lib"
-    },
     "mobile-alarms": {
       "id": "mobile-alarms",
       "name": "Mobile Alarms",
       "symbol": "#mobile-alarms",
       "category": "components",
       "path": "/Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose",
-      "description": "On iOS/Android, schedules each enabled alarm as an OS local notification (Schedule.at for one-time, weekly Schedule.interval per repeat day) so alarms fire when the app is backgrounded/locked. No-op on desktop. Detects mobile via userAgent.",
+      "description": "On iOS/Android, schedules each enabled alarm as an OS local notification (Schedule.at for one-time, weekly Schedule.interval per repeat day) so alarms fire when backgrounded/locked. No-op on desktop. Detects mobile via userAgent and computes each alarm's next occurrence.",
       "visualTags": [],
       "related": [
         "$alarm-lifecycle",
-        "#wake",
         "#native"
       ],
       "componentType": "lib"
@@ -519,10 +505,6 @@
     "#format": {
       "category": "components",
       "id": "format"
-    },
-    "#wake": {
-      "category": "components",
-      "id": "wake"
     },
     "#mobile-alarms": {
       "category": "components",

@@ -52,8 +52,6 @@ export interface ClockSettings {
   face: ClockFace;
   hour24: boolean;
   showSeconds: boolean;
-  /** Schedule a macOS wake before each alarm so it fires from sleep. */
-  wakeFromSleep: boolean;
 }
 
 export const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];

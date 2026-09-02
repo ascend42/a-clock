@@ -2,6 +2,6 @@ version: 1.0.0
 description: Rust entry point and native plugin registration
 components:
   tauri-core:
-    description: 'Tauri entry point. Registers opener/dialog/notification plugins; enables the asset protocol; desktop-only menu-bar tray with hide-on-close scoped to the main window. Commands: schedule_wake/cancel_wake (pmset wake-from-sleep) and open_video (dedicated looping YouTube window via an injected initialization script).'
+    description: Tauri entry point. Registers opener/dialog/notification plugins; enables the asset protocol; desktop-only menu-bar tray with hide-on-close scoped to the main window. Exposes the open_video command (dedicated looping YouTube window via an injected initialization script). No wake/pmset code — that feature was removed.
     type: core
     file: src-tauri/src/lib.rs

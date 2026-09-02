@@ -1,0 +1,43 @@
+id: L-2026-09-02-ascend-063954-001
+type: milestone
+timestamp: '2026-09-02T06:39:54.038Z'
+author: ascend
+agent:
+  provider: anthropic
+  model: claude-opus-4-6
+title: 'a-clock: stop wake-from-sleep admin-prompt nagging'
+summary: 'Fixed constant osascript/admin-password prompts from the wake-from-sleep feature. Root cause: scheduling a pmset wake needs root (osascript ''with administrator privileges''), and the ''already scheduled'' dedup lived only in RAM, so every app launch re-prompted — amplified by the KeepAlive agent and frequent reinstalls, which also created duplicate wakes. Fix: persist the last-scheduled wake time to localStorage so it only prompts when the earliest alarm time actually changes (and cancels the prior before adding, preventing duplicates), default wakeFromSleep to OFF (opt-in), and bump the settings storage key to v2 so existing installs reset with wake off. Verified the app now launches adding no new wakes and no prompt.'
+symbols_touched:
+  - '#wake'
+  - '#storage'
+files_modified:
+  - src/lib/wake.ts
+  - src/lib/storage.ts
+decisions:
+  - id: persist-wake-dedup
+    decision: Persist the last-scheduled wake time to localStorage
+    rationale: The in-RAM dedup reset every launch, so pmset (which needs an admin prompt) re-ran on each start; persisting means it only prompts when the earliest alarm changes.
+  - id: wake-opt-in
+    decision: Default wake-from-sleep OFF and bump settings key to v2
+    rationale: Wake-from-sleep is heavyweight (admin prompt) and shouldn't be on unless the user asks; the key bump resets existing installs that had the old default-on behavior.
+learnings:
+  - Any per-session dedup guarding an admin-prompting side effect must be persisted, or every process restart re-triggers the prompt — especially under a launchd KeepAlive that restarts the app.
+  - pmset schedule wake without cancelling the prior creates duplicate wake events.
+verification:
+  status: pass
+  details:
+    typecheck: pass
+    release-build: pass
+    installed-run: pass
+    no-new-wakes-on-launch: pass
+tags:
+  - macos
+  - pmset
+  - wake
+  - ux
+  - bugfix
+confidence: 0.9
+git_context:
+  ref: b044318d9e9d060af5cb15119d01ee50663023ba
+  branch: main
+  dirty: true

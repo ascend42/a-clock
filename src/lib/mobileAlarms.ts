@@ -4,12 +4,24 @@ import {
   Schedule,
 } from "@tauri-apps/plugin-notification";
 import type { Alarm } from "../types";
-import { nextOccurrence } from "./wake";
 import { ensureNotificationPermission } from "./native";
 
 /** iOS/Android webview detection — mobile can't run background JS timers. */
 export function isMobile(): boolean {
   return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+}
+
+/** The next time this alarm will fire after `from`, or null if disabled/never. */
+function nextOccurrence(alarm: Alarm, from: Date): Date | null {
+  if (!alarm.enabled) return null;
+  for (let i = 0; i < 8; i++) {
+    const d = new Date(from);
+    d.setDate(d.getDate() + i);
+    d.setHours(alarm.hour, alarm.minute, 0, 0);
+    if (d.getTime() <= from.getTime()) continue;
+    if (alarm.days.length === 0 || alarm.days.includes(d.getDay())) return d;
+  }
+  return null;
 }
 
 /** Stable positive 32-bit id from an alarm's uuid + a per-day slot (0-7). */

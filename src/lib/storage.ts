@@ -2,14 +2,15 @@ import type { Alarm, ClockSettings, PomodoroSettings } from "../types";
 import { DEFAULT_POMODORO } from "../types";
 
 const ALARMS_KEY = "a-clock.alarms.v1";
-const SETTINGS_KEY = "a-clock.clock-settings.v1";
+// v2: wake-from-sleep is now opt-in (off by default); bumping the key resets
+// existing installs so the old default-on wake behavior stops prompting.
+const SETTINGS_KEY = "a-clock.clock-settings.v2";
 const POMODORO_KEY = "a-clock.pomodoro-settings.v1";
 
 const DEFAULT_SETTINGS: ClockSettings = {
   face: "analog",
   hour24: false,
   showSeconds: true,
-  wakeFromSleep: true,
 };
 
 export function loadAlarms(): Alarm[] {

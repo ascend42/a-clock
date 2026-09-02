@@ -1,5 +1,5 @@
 version: '1.0'
-generated: '2026-08-31T17:06:38.424Z'
+generated: '2026-09-01T22:07:12.796Z'
 by_symbol:
   '!alarm-dismissed':
     symbol: '!alarm-dismissed'
@@ -279,7 +279,7 @@ by_symbol:
     stability_score: 1
     fragility: low
     recent:
-      - &ref_3
+      - &ref_4
         id: h0003
         ts: '2026-08-31T08:01:31Z'
         type: implement
@@ -456,11 +456,58 @@ by_symbol:
       agent: []
   '#ringing-overlay':
     symbol: '#ringing-overlay'
-    total_changes: 3
-    last_modified: '2026-08-31T14:56:42Z'
+    total_changes: 4
+    last_modified: '2026-09-01T22:07:11Z'
     stability_score: 1
     fragility: low
     recent:
+      - &ref_3
+        id: h0006
+        ts: '2026-09-01T22:07:11Z'
+        type: implement
+        symbols:
+          - '#mobile-alarms'
+          - '#ringing-overlay'
+          - '#tauri-core'
+          - '#trigger-player'
+          - '#youtube'
+          - $alarm-lifecycle
+        author:
+          type: human
+          id: ascend
+        commit: b044318d9e9d060af5cb15119d01ee50663023ba
+        intent: feature
+        files:
+          - .paradigm/aspect-graph.db
+          - .paradigm/events/compliance-history.jsonl
+          - .paradigm/events/debates.jsonl
+          - .paradigm/events/nominations.jsonl
+          - .paradigm/events/stream.jsonl
+          - .paradigm/events/team-funnel.jsonl
+          - .paradigm/flow-index.json
+          - .paradigm/history/index.yaml
+          - .paradigm/history/log.jsonl
+          - .paradigm/lore/entries/2026-09-01/L-2026-09-01-ascend-070424-001.lore
+          - .paradigm/lore/entries/2026-09-01/L-2026-09-01-ascend-220654-001.lore
+          - .paradigm/lore/timeline.yaml
+          - .paradigm/manifest.consistency.json
+          - .paradigm/navigator.yaml
+          - .paradigm/personas/index.yaml
+          - .paradigm/scan-index.json
+          - .paradigm/session-breadcrumbs.json
+          - .paradigm/university/index.yaml
+          - src-tauri/capabilities/default.json
+          - src-tauri/src/.purpose
+          - src-tauri/src/lib.rs
+          - src/App.css
+          - src/App.tsx
+          - src/components/.purpose
+          - src/components/RingingOverlay.tsx
+          - src/components/TriggerPlayer.tsx
+          - src/lib/.purpose
+          - src/lib/mobileAlarms.ts
+          - src/lib/youtube.ts
+        description: 'feat(#trigger-player): in-app looping YouTube window + native mobile alarms'
       - *ref_2
       - *ref_1
       - *ref_0
@@ -483,11 +530,12 @@ by_symbol:
       agent: []
   '#tauri-core':
     symbol: '#tauri-core'
-    total_changes: 4
-    last_modified: '2026-08-31T17:06:37Z'
+    total_changes: 5
+    last_modified: '2026-09-01T22:07:11Z'
     stability_score: 1
     fragility: low
     recent:
+      - *ref_3
       - id: h0005
         ts: '2026-08-31T17:06:37Z'
         type: implement
@@ -596,11 +644,12 @@ by_symbol:
       agent: []
   '#trigger-player':
     symbol: '#trigger-player'
-    total_changes: 1
-    last_modified: '2026-08-31T07:34:35Z'
+    total_changes: 2
+    last_modified: '2026-09-01T22:07:11Z'
     stability_score: 1
     fragility: low
     recent:
+      - *ref_3
       - *ref_0
     contributors:
       human:
@@ -620,11 +669,12 @@ by_symbol:
       agent: []
   '#youtube':
     symbol: '#youtube'
-    total_changes: 1
-    last_modified: '2026-08-31T07:34:35Z'
+    total_changes: 2
+    last_modified: '2026-09-01T22:07:11Z'
     stability_score: 1
     fragility: low
     recent:
+      - *ref_3
       - *ref_0
     contributors:
       human:
@@ -632,11 +682,12 @@ by_symbol:
       agent: []
   $alarm-lifecycle:
     symbol: $alarm-lifecycle
-    total_changes: 3
-    last_modified: '2026-08-31T14:56:42Z'
+    total_changes: 4
+    last_modified: '2026-09-01T22:07:11Z'
     stability_score: 1
     fragility: low
     recent:
+      - *ref_3
       - *ref_2
       - *ref_1
       - *ref_0
@@ -663,7 +714,7 @@ by_symbol:
     stability_score: 1
     fragility: low
     recent:
-      - *ref_3
+      - *ref_4
       - *ref_0
     contributors:
       human:
@@ -713,7 +764,7 @@ by_symbol:
     fragility: low
     recent:
       - *ref_2
-      - *ref_3
+      - *ref_4
       - *ref_1
     contributors:
       human:
@@ -775,6 +826,18 @@ by_symbol:
     fragility: low
     recent:
       - *ref_2
+    contributors:
+      human:
+        - ascend
+      agent: []
+  '#mobile-alarms':
+    symbol: '#mobile-alarms'
+    total_changes: 1
+    last_modified: '2026-09-01T22:07:11Z'
+    stability_score: 1
+    fragility: low
+    recent:
+      - *ref_3
     contributors:
       human:
         - ascend

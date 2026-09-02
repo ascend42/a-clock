@@ -37,59 +37,6 @@ fn open_video(app: tauri::AppHandle, url: String) -> Result<(), String> {
     Ok(())
 }
 
-/// Run an AppleScript snippet (used to invoke `pmset` with admin rights, which
-/// prompts the user for authorization the first time / when the wake changes).
-/// macOS-only; on other platforms this is a harmless no-op.
-#[cfg(target_os = "macos")]
-fn run_osascript(applescript: &str) -> Result<(), String> {
-    let status = std::process::Command::new("/usr/bin/osascript")
-        .arg("-e")
-        .arg(applescript)
-        .status()
-        .map_err(|e| e.to_string())?;
-    if status.success() {
-        Ok(())
-    } else {
-        Err("osascript/pmset failed".into())
-    }
-}
-
-/// Schedule a macOS wake at `datetime` ("MM/dd/yy HH:mm:ss"), first cancelling
-/// the `previous` wake we scheduled (if any) so old events don't pile up.
-#[tauri::command]
-fn schedule_wake(_datetime: String, _previous: Option<String>) -> Result<(), String> {
-    #[cfg(target_os = "macos")]
-    {
-        let mut cmd = String::new();
-        if let Some(prev) = _previous.filter(|p| !p.is_empty()) {
-            cmd.push_str(&format!("/usr/bin/pmset schedule cancel wake \\\"{prev}\\\" ; "));
-        }
-        cmd.push_str(&format!("/usr/bin/pmset schedule wake \\\"{_datetime}\\\""));
-        return run_osascript(&format!(
-            "do shell script \"{cmd}\" with administrator privileges"
-        ));
-    }
-    #[cfg(not(target_os = "macos"))]
-    Err("wake scheduling is only supported on macOS".into())
-}
-
-/// Cancel a previously scheduled macOS wake.
-#[tauri::command]
-fn cancel_wake(_datetime: String) -> Result<(), String> {
-    #[cfg(target_os = "macos")]
-    {
-        if _datetime.is_empty() {
-            return Ok(());
-        }
-        let cmd = format!("/usr/bin/pmset schedule cancel wake \\\"{_datetime}\\\"");
-        return run_osascript(&format!(
-            "do shell script \"{cmd}\" with administrator privileges"
-        ));
-    }
-    #[cfg(not(target_os = "macos"))]
-    Ok(())
-}
-
 /// Desktop-only setup: a menu-bar tray so the app stays alive (and the alarm
 /// scheduler keeps running) when the window is closed. Not applicable on mobile.
 #[cfg(desktop)]
@@ -148,12 +95,7 @@ pub fn run() {
         });
 
     builder
-        .invoke_handler(tauri::generate_handler![
-            greet,
-            schedule_wake,
-            cancel_wake,
-            open_video
-        ])
+        .invoke_handler(tauri::generate_handler![greet, open_video])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

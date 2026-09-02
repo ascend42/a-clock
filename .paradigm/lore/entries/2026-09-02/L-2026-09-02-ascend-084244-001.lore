@@ -1,0 +1,46 @@
+id: L-2026-09-02-ascend-084244-001
+type: milestone
+timestamp: '2026-09-02T08:42:44.522Z'
+author: ascend
+agent:
+  provider: anthropic
+  model: claude-opus-4-6
+title: 'a-clock: remove wake-from-sleep feature entirely (it blocked alarms)'
+summary: Removed the macOS wake-from-sleep feature completely because its osascript 'with administrator privileges' pmset call prompted at alarm-fire time and the modal blocked the alarm from actually triggering the file — unacceptable for an alarm clock. Deleted src/lib/wake.ts and the schedule_wake/cancel_wake/run_osascript Rust commands, removed the wake effect + fireTick + the Wake Mac toggle and the wakeFromSleep setting, and moved the still-needed nextOccurrence helper into mobileAlarms.ts. No osascript/pmset remains anywhere. Rebuilt and reinstalled; alarms now fire unblocked.
+symbols_touched:
+  - '#tauri-core'
+  - '#mobile-alarms'
+  - '#alarms-view'
+  - '#storage'
+files_modified:
+  - src/App.tsx
+  - src/components/AlarmsView.tsx
+  - src/types.ts
+  - src/lib/storage.ts
+  - src/lib/mobileAlarms.ts
+  - src-tauri/src/lib.rs
+decisions:
+  - id: remove-wake-feature
+    decision: Remove wake-from-sleep entirely rather than keep patching it
+    rationale: The admin prompt fired at alarm-fire time and blocked the alarm from triggering its file — it broke the app's core function. No amount of dedup fixes a feature that requires a root prompt; removing it guarantees alarms are never blocked.
+learnings:
+  - A feature that requires a root/admin prompt (pmset via osascript) can block the app's primary function when the modal appears at the wrong time; for a foreground alarm, never gate firing behind a privileged prompt.
+  - 'The reliable cross-platform alarm approach is: JS scheduler while the app runs (kept alive by the tray + KeepAlive agent) on desktop, OS-scheduled notifications on mobile, and local audio/video files for in-overlay playback.'
+verification:
+  status: pass
+  details:
+    typecheck: pass
+    cargo-check: pass
+    release-build: pass
+    installed-run: pass
+    no-osascript-remaining: pass
+tags:
+  - bugfix
+  - alarm
+  - macos
+  - removal
+confidence: 0.95
+git_context:
+  ref: b044318d9e9d060af5cb15119d01ee50663023ba
+  branch: main
+  dirty: true

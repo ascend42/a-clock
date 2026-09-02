@@ -10,8 +10,6 @@ interface Props {
   onToggle: (id: string, enabled: boolean) => void;
   onDuplicate: (alarm: Alarm) => void;
   onTest: (alarm: Alarm) => void;
-  wakeFromSleep: boolean;
-  onToggleWake: (enabled: boolean) => void;
 }
 
 function newAlarm(): Alarm {
@@ -64,8 +62,6 @@ export function AlarmsView({
   onToggle,
   onDuplicate,
   onTest,
-  wakeFromSleep,
-  onToggleWake,
 }: Props) {
   const [editing, setEditing] = useState<Alarm | null>(null);
 
@@ -78,14 +74,6 @@ export function AlarmsView({
       <div className="alarms-header">
         <h1>Alarms</h1>
         <div className="alarms-header-actions">
-          <label className="toggle" title="Schedule a macOS wake before each alarm (asks for admin once)">
-            <input
-              type="checkbox"
-              checked={wakeFromSleep}
-              onChange={(e) => onToggleWake(e.target.checked)}
-            />
-            🌙 Wake Mac
-          </label>
           <button className="btn primary" onClick={() => setEditing(newAlarm())}>
             + New
           </button>

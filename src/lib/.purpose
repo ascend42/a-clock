@@ -37,18 +37,11 @@ components:
     description: Formats a millisecond duration as a clock string (hours only when needed, optional centiseconds) for the stopwatch, timer, and pomodoro.
     type: lib
     file: src/lib/format.ts
-  wake:
-    description: Schedules a macOS wake (via the schedule_wake Tauri command / pmset) ~30s before the earliest upcoming alarm so it fires from full sleep; deduped to avoid repeat admin prompts. Computes each alarm's next occurrence.
-    type: lib
-    components:
-      - '#tauri-core'
-    file: src/lib/wake.ts
   mobile-alarms:
-    description: On iOS/Android, schedules each enabled alarm as an OS local notification (Schedule.at for one-time, weekly Schedule.interval per repeat day) so alarms fire when the app is backgrounded/locked. No-op on desktop. Detects mobile via userAgent.
-    file: src/lib/mobileAlarms.ts
+    description: On iOS/Android, schedules each enabled alarm as an OS local notification (Schedule.at for one-time, weekly Schedule.interval per repeat day) so alarms fire when backgrounded/locked. No-op on desktop. Detects mobile via userAgent and computes each alarm's next occurrence.
+    type: lib
     flows:
       - $alarm-lifecycle
     components:
-      - '#wake'
       - '#native'
-    type: lib
+    file: src/lib/mobileAlarms.ts

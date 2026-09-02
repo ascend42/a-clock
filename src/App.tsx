@@ -11,8 +11,7 @@ import {
 } from "./lib/storage";
 import { unlockAudio } from "./lib/beep";
 import { duplicateAlarm } from "./lib/alarm";
-import { scheduleNextWake, cancelScheduledWake } from "./lib/wake";
-import { isMobile, syncAlarmNotifications } from "./lib/mobileAlarms";
+import { syncAlarmNotifications } from "./lib/mobileAlarms";
 import {
   ensureNotificationPermission,
   notifyAlarm,
@@ -39,19 +38,10 @@ export default function App() {
   // interrupts (or resets a puzzle) in front of you.
   const ringingRef = useRef<Alarm | null>(null);
   const queueRef = useRef<Alarm[]>([]);
-  // Bumped whenever an alarm actually fires, to re-arm the next OS wake.
-  const [fireTick, setFireTick] = useState(0);
 
   // Persist on change.
   useEffect(() => saveAlarms(alarms), [alarms]);
   useEffect(() => saveSettings(settings), [settings]);
-
-  // Keep a macOS wake armed for the earliest upcoming alarm (desktop, opt-in).
-  useEffect(() => {
-    if (isMobile()) return;
-    if (settings.wakeFromSleep) void scheduleNextWake(alarms);
-    else void cancelScheduledWake();
-  }, [alarms, settings.wakeFromSleep, fireTick]);
 
   // On mobile, hand alarms to the OS as scheduled notifications so they fire
   // when the app is backgrounded/locked (background JS timers are frozen).
@@ -81,7 +71,6 @@ export default function App() {
   const activate = useCallback((alarm: Alarm) => {
     ringingRef.current = alarm;
     setRinging(alarm);
-    setFireTick((t) => t + 1); // re-arm the next OS wake
     void surfaceWindow();
     void notifyAlarm(alarm);
     // A one-time alarm turns itself off only once it actually rings.
@@ -202,10 +191,6 @@ export default function App() {
             onToggle={toggleAlarm}
             onDuplicate={duplicate}
             onTest={testRing}
-            wakeFromSleep={settings.wakeFromSleep}
-            onToggleWake={(v) =>
-              setSettings((s) => ({ ...s, wakeFromSleep: v }))
-            }
           />
         )}
         {/* Chrono tabs stay mounted so a running stopwatch/timer/pomodoro
