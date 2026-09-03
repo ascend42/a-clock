@@ -45,3 +45,7 @@ components:
     components:
       - '#native'
     file: src/lib/mobileAlarms.ts
+  wakelock:
+    description: 'Nightstand mode: requests a screen Wake Lock so the phone doesn''t auto-lock and freeze the in-app alarm scheduler; re-acquires on visibility change. No-op where the Wake Lock API is unavailable.'
+    file: src/lib/wakelock.ts
+    type: lib

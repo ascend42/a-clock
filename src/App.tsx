@@ -12,6 +12,7 @@ import {
 import { unlockAudio } from "./lib/beep";
 import { duplicateAlarm } from "./lib/alarm";
 import { syncAlarmNotifications } from "./lib/mobileAlarms";
+import { setKeepAwake } from "./lib/wakelock";
 import {
   ensureNotificationPermission,
   notifyAlarm,
@@ -48,6 +49,12 @@ export default function App() {
   useEffect(() => {
     void syncAlarmNotifications(alarms);
   }, [alarms]);
+
+  // Nightstand mode: keep the screen awake so the in-app scheduler keeps
+  // running (iOS freezes the app once the screen locks).
+  useEffect(() => {
+    void setKeepAwake(settings.keepAwake);
+  }, [settings.keepAwake]);
 
   // Ask for notification permission up front so a firing alarm can post one.
   useEffect(() => {
@@ -191,6 +198,10 @@ export default function App() {
             onToggle={toggleAlarm}
             onDuplicate={duplicate}
             onTest={testRing}
+            keepAwake={settings.keepAwake}
+            onToggleKeepAwake={(v) =>
+              setSettings((s) => ({ ...s, keepAwake: v }))
+            }
           />
         )}
         {/* Chrono tabs stay mounted so a running stopwatch/timer/pomodoro

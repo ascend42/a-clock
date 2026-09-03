@@ -11,6 +11,7 @@ const DEFAULT_SETTINGS: ClockSettings = {
   face: "analog",
   hour24: false,
   showSeconds: true,
+  keepAwake: false,
 };
 
 export function loadAlarms(): Alarm[] {

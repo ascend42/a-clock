@@ -1,0 +1,51 @@
+id: L-2026-09-03-ascend-074442-001
+type: milestone
+timestamp: '2026-09-03T07:44:42.360Z'
+author: ascend
+agent:
+  provider: anthropic
+  model: claude-opus-4-6
+title: 'a-clock on iPhone: device deploy, and debugging iOS notification alarms'
+summary: 'Got a-clock running on a physical iPhone 15 Pro: set the iOS signing developmentTeam (SW4BMQ8PNL) in tauri.conf.json, cfg-gated the desktop-only open_video command so the iOS target compiles, built a signed .ipa (--export-method debugging) and installed it via devicectl. Added sound:''default'' to the scheduled mobile notifications and tightened the alarm-card CSS for phone widths. On-device testing surfaced the core problem: the alarm only fires via the in-app JS scheduler (foreground); the scheduled OS notification does NOT fire when the phone is locked — so the real iOS alarm is broken. Also found the WebAudio beep is very soft on iOS and the YouTube openUrl fallback doesn''t open. Added an on-device diagnostics panel (mobile/permission/UA readout + a ''Test notification 15s'' button) to pinpoint whether the failure is detection, permission, scheduling, or delivery.'
+symbols_touched:
+  - '#mobile-alarms'
+  - '#alarms-view'
+  - '#tauri-core'
+  - '#trigger-player'
+files_modified:
+  - src-tauri/tauri.conf.json
+  - src-tauri/src/lib.rs
+  - src/lib/mobileAlarms.ts
+  - src/components/AlarmsView.tsx
+  - src/App.css
+decisions:
+  - id: ios-device-deploy
+    decision: Deploy to a real iPhone via signed .ipa + devicectl using the paid team
+    rationale: The simulator can't be a real alarm; a physical-device build with the user's paid Apple team is required to test actual notification alarms.
+  - id: diagnostics-over-guessing
+    decision: Add an on-device diagnostics panel instead of blind rebuild-test cycles
+    rationale: Remote iOS debugging is slow (rebuild + reinstall each time); a readout of mobile/permission/UA + a test-notification button pinpoints the failure in one cycle.
+learnings:
+  - WebviewWindowBuilder positioning methods (center/inner_size) are desktop-only and break the iOS compile (E0282/E0599); cfg-gate the whole open_video body to desktop.
+  - On iOS a third-party app's real alarm is the scheduled local notification, and it's gated by the ring/silent switch (only Apple Clock + Critical Alerts bypass); the in-app WebAudio beep is muted by the silent switch and generally soft, and a user-picked file can never be the locked/asleep notification sound (must be bundled at build).
+  - iOS sandbox blocks playing a file-picked path in the webview (needs security-scoped access / importing into the app container).
+verification:
+  status: partial
+  details:
+    typecheck: pass
+    ios-cargo-check: pass
+    ios-ipa-build: pass
+    device-install: pass
+    notification-fires-locked: fail
+tags:
+  - ios
+  - iphone
+  - notifications
+  - alarm
+  - device
+  - debugging
+confidence: 0.7
+git_context:
+  ref: 15331e68d9953b633f26f45f2d6f5f2ad794c713
+  branch: main
+  dirty: true

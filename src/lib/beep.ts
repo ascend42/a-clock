@@ -76,7 +76,7 @@ export function startBeep(): BeepHandle {
       osc.frequency.setValueAtTime(660, now + 0.18);
       // quick attack/decay envelope so it sounds like a beep, not a drone
       gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.exponentialRampToValueAtTime(0.35, now + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.9, now + 0.02);
       gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.4);
       osc.connect(gain).connect(c.destination);
       osc.start(now);

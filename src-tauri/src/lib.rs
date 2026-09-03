@@ -1,4 +1,6 @@
-use tauri::{Manager, WebviewUrl, WebviewWindowBuilder};
+use tauri::Manager;
+#[cfg(desktop)]
+use tauri::{WebviewUrl, WebviewWindowBuilder};
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
@@ -9,32 +11,59 @@ fn greet(name: &str) -> String {
 /// Open a YouTube video in a dedicated window and keep it looping by flipping
 /// the underlying HTML5 player to `loop = true` (injected before load). This
 /// loads the real watch page top-level, so it avoids the iframe Error 153.
+/// Desktop-only (the window-builder positioning APIs don't exist on mobile);
+/// mobile opens YouTube in the system browser instead.
 #[tauri::command]
-fn open_video(app: tauri::AppHandle, url: String) -> Result<(), String> {
-    if let Some(existing) = app.get_webview_window("yt-alarm") {
-        let _ = existing.close();
-    }
-    let parsed = tauri::Url::parse(&url).map_err(|e| e.to_string())?;
-    let loop_script = r#"
-      (function () {
-        function keepLooping() {
-          var v = document.querySelector('video');
-          if (v) {
-            v.loop = true;
-            if (v.ended) { try { v.currentTime = 0; v.play(); } catch (e) {} }
-          }
+fn open_video(_app: tauri::AppHandle, _url: String) -> Result<(), String> {
+    #[cfg(desktop)]
+    {
+        if let Some(existing) = _app.get_webview_window("yt-alarm") {
+            let _ = existing.close();
         }
-        setInterval(keepLooping, 1000);
-      })();
-    "#;
-    WebviewWindowBuilder::new(&app, "yt-alarm", WebviewUrl::External(parsed))
-        .title("a-clock — video")
-        .inner_size(900.0, 540.0)
-        .center()
-        .initialization_script(loop_script)
-        .build()
-        .map_err(|e| e.to_string())?;
-    Ok(())
+        let parsed = tauri::Url::parse(&_url).map_err(|e| e.to_string())?;
+        let loop_script = r#"
+          (function () {
+            function keepLooping() {
+              var v = document.querySelector('video');
+              if (v) {
+                v.loop = true;
+                if (v.ended) { try { v.currentTime = 0; v.play(); } catch (e) {} }
+              }
+            }
+            setInterval(keepLooping, 1000);
+          })();
+        "#;
+        WebviewWindowBuilder::new(&_app, "yt-alarm", WebviewUrl::External(parsed))
+            .title("a-clock — video")
+            .inner_size(900.0, 540.0)
+            .center()
+            .initialization_script(loop_script)
+            .build()
+            .map_err(|e| e.to_string())?;
+        Ok(())
+    }
+    #[cfg(not(desktop))]
+    Err("video window is desktop-only".into())
+}
+
+/// Copy a picked media file into the app's data directory so it is durably
+/// owned by the app (survives the original moving/deleting) and playable
+/// in-app on iOS, where a raw picked path isn't accessible to the webview.
+#[tauri::command]
+fn import_media(app: tauri::AppHandle, src: String) -> Result<String, String> {
+    let dir = app
+        .path()
+        .app_data_dir()
+        .map_err(|e| e.to_string())?
+        .join("library");
+    std::fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
+    let name = std::path::Path::new(&src)
+        .file_name()
+        .map(|n| n.to_string_lossy().to_string())
+        .unwrap_or_else(|| "media".to_string());
+    let dst = dir.join(&name);
+    std::fs::copy(&src, &dst).map_err(|e| e.to_string())?;
+    Ok(dst.to_string_lossy().to_string())
 }
 
 /// Desktop-only setup: a menu-bar tray so the app stays alive (and the alarm
@@ -95,7 +124,7 @@ pub fn run() {
         });
 
     builder
-        .invoke_handler(tauri::generate_handler![greet, open_video])
+        .invoke_handler(tauri::generate_handler![greet, open_video, import_media])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

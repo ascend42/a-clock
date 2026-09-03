@@ -2,6 +2,7 @@ import {
   sendNotification,
   cancelAll,
   Schedule,
+  isPermissionGranted,
 } from "@tauri-apps/plugin-notification";
 import type { Alarm } from "../types";
 import { ensureNotificationPermission } from "./native";
@@ -9,6 +10,38 @@ import { ensureNotificationPermission } from "./native";
 /** iOS/Android webview detection — mobile can't run background JS timers. */
 export function isMobile(): boolean {
   return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+}
+
+/** One-line status string for on-device debugging of notification alarms. */
+export async function notifDiagnostics(): Promise<string> {
+  const parts: string[] = [`mobile=${isMobile()}`];
+  try {
+    parts.push(`perm=${await isPermissionGranted()}`);
+  } catch (e) {
+    parts.push(`perm-err=${String(e).slice(0, 30)}`);
+  }
+  parts.push(`ua=${navigator.userAgent.slice(0, 24)}`);
+  return parts.join(" · ");
+}
+
+/** Schedule a notification 15s out and report the outcome (or the error). */
+export async function testNotificationSoon(): Promise<string> {
+  try {
+    if (!(await ensureNotificationPermission())) return "❌ permission denied";
+    await sendNotification({
+      id: 999001,
+      title: "a-clock test",
+      body: "15-second test — lock the phone now",
+      sound: "default",
+      schedule: Schedule.interval(
+        localComponents(new Date(Date.now() + 15_000)),
+        true,
+      ),
+    });
+    return "✅ scheduled — lock phone, wait 15s";
+  } catch (e) {
+    return `❌ ${String(e).slice(0, 80)}`;
+  }
 }
 
 /** The next time this alarm will fire after `from`, or null if disabled/never. */
@@ -32,6 +65,18 @@ function notifId(alarmId: string, slot: number): number {
     h = Math.imul(h, 16777619);
   }
   return ((h >>> 0) % 200_000_000) * 10 + (slot % 10);
+}
+
+/** Local calendar components for a Date (month is 1-based for iOS). */
+function localComponents(d: Date) {
+  return {
+    year: d.getFullYear(),
+    month: d.getMonth() + 1,
+    day: d.getDate(),
+    hour: d.getHours(),
+    minute: d.getMinutes(),
+    second: d.getSeconds(),
+  };
 }
 
 function timeLabel(a: Alarm): string {
@@ -67,7 +112,10 @@ export async function syncAlarmNotifications(alarms: Alarm[]): Promise<void> {
           id: notifId(a.id, 0),
           title,
           body,
-          schedule: Schedule.at(occ, false, true),
+          sound: "default",
+          // Use a calendar interval with LOCAL components — Schedule.at
+          // mis-parses the UTC timestamp as local time (fires hours off).
+          schedule: Schedule.interval(localComponents(occ), true),
         });
       } else {
         for (const d of a.days) {
@@ -75,6 +123,7 @@ export async function syncAlarmNotifications(alarms: Alarm[]): Promise<void> {
             id: notifId(a.id, d + 1),
             title,
             body,
+            sound: "default",
             // plugin weekday: 1=Sunday..7=Saturday; our day is 0=Sun..6=Sat
             schedule: Schedule.interval(
               { weekday: d + 1, hour: a.hour, minute: a.minute, second: 0 },

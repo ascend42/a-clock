@@ -52,6 +52,8 @@ export interface ClockSettings {
   face: ClockFace;
   hour24: boolean;
   showSeconds: boolean;
+  /** Nightstand mode: keep the screen awake so alarms fire while the app is open. */
+  keepAwake: boolean;
 }
 
 export const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];

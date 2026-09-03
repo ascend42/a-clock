@@ -15,3 +15,8 @@
 {"timestamp":"2026-09-02T06:37:18Z","type":"edit-advisory","source":"team-gate","file":"wake.ts"}
 {"timestamp":"2026-09-02T06:38:59Z","type":"eligible","source":"prompt-gate","matched":"build "}
 {"timestamp":"2026-09-02T06:40:16Z","type":"bypass","source":"stop-hook","magnitude":4,"reasons":"2 source files, 1 securityadjacent","severity":"warn"}
+{"timestamp":"2026-09-02T17:26:40Z","type":"edit-advisory","source":"team-gate","file":"mobileAlarms.ts"}
+{"timestamp":"2026-09-02T17:28:55Z","type":"eligible","source":"prompt-gate","matched":"Build "}
+{"timestamp":"2026-09-03T07:44:17Z","type":"bypass","source":"stop-hook","magnitude":5,"reasons":"5 source files","severity":"warn"}
+{"timestamp":"2026-09-03T07:53:19Z","type":"edit-advisory","source":"team-gate","file":"mobileAlarms.ts"}
+{"timestamp":"2026-09-03T07:54:44Z","type":"eligible","source":"prompt-gate","matched":"build "}

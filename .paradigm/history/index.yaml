@@ -1,5 +1,5 @@
 version: '1.0'
-generated: '2026-09-01T22:07:12.796Z'
+generated: '2026-09-02T14:48:01.067Z'
 by_symbol:
   '!alarm-dismissed':
     symbol: '!alarm-dismissed'
@@ -279,7 +279,7 @@ by_symbol:
     stability_score: 1
     fragility: low
     recent:
-      - &ref_4
+      - &ref_5
         id: h0003
         ts: '2026-08-31T08:01:31Z'
         type: implement
@@ -393,11 +393,54 @@ by_symbol:
       agent: []
   '#alarms-view':
     symbol: '#alarms-view'
-    total_changes: 3
-    last_modified: '2026-08-31T14:56:42Z'
+    total_changes: 4
+    last_modified: '2026-09-02T14:47:59Z'
     stability_score: 1
     fragility: low
     recent:
+      - &ref_3
+        id: h0007
+        ts: '2026-09-02T14:47:59Z'
+        type: implement
+        symbols:
+          - '#alarms-view'
+          - '#mobile-alarms'
+          - '#storage'
+          - '#tauri-core'
+        author:
+          type: human
+          id: ascend
+        commit: 15331e68d9953b633f26f45f2d6f5f2ad794c713
+        intent: fix
+        files:
+          - .paradigm/aspect-graph.db
+          - .paradigm/events/compliance-history.jsonl
+          - .paradigm/events/debates.jsonl
+          - .paradigm/events/nominations.jsonl
+          - .paradigm/events/stream.jsonl
+          - .paradigm/events/team-funnel.jsonl
+          - .paradigm/flow-index.json
+          - .paradigm/history/index.yaml
+          - .paradigm/history/log.jsonl
+          - .paradigm/lore/entries/2026-09-02/L-2026-09-02-ascend-063954-001.lore
+          - .paradigm/lore/entries/2026-09-02/L-2026-09-02-ascend-084244-001.lore
+          - .paradigm/lore/timeline.yaml
+          - .paradigm/manifest.consistency.json
+          - .paradigm/navigator.yaml
+          - .paradigm/personas/index.yaml
+          - .paradigm/scan-index.json
+          - .paradigm/session-breadcrumbs.json
+          - .paradigm/university/index.yaml
+          - src-tauri/src/.purpose
+          - src-tauri/src/lib.rs
+          - src/App.tsx
+          - src/components/AlarmsView.tsx
+          - src/lib/.purpose
+          - src/lib/mobileAlarms.ts
+          - src/lib/storage.ts
+          - src/lib/wake.ts
+          - src/types.ts
+        description: 'fix(#tauri-core): remove wake-from-sleep feature (its admin prompt blocked alarms)'
       - *ref_2
       - *ref_1
       - *ref_0
@@ -461,7 +504,7 @@ by_symbol:
     stability_score: 1
     fragility: low
     recent:
-      - &ref_3
+      - &ref_4
         id: h0006
         ts: '2026-09-01T22:07:11Z'
         type: implement
@@ -517,11 +560,12 @@ by_symbol:
       agent: []
   '#storage':
     symbol: '#storage'
-    total_changes: 2
-    last_modified: '2026-08-31T14:56:42Z'
+    total_changes: 3
+    last_modified: '2026-09-02T14:47:59Z'
     stability_score: 1
     fragility: low
     recent:
+      - *ref_3
       - *ref_2
       - *ref_0
     contributors:
@@ -530,12 +574,13 @@ by_symbol:
       agent: []
   '#tauri-core':
     symbol: '#tauri-core'
-    total_changes: 5
-    last_modified: '2026-09-01T22:07:11Z'
+    total_changes: 6
+    last_modified: '2026-09-02T14:47:59Z'
     stability_score: 1
     fragility: low
     recent:
       - *ref_3
+      - *ref_4
       - id: h0005
         ts: '2026-08-31T17:06:37Z'
         type: implement
@@ -637,7 +682,6 @@ by_symbol:
         description: 'feat(#tauri-core): iOS + Android targets and responsive mobile layout'
       - *ref_2
       - *ref_1
-      - *ref_0
     contributors:
       human:
         - ascend
@@ -649,7 +693,7 @@ by_symbol:
     stability_score: 1
     fragility: low
     recent:
-      - *ref_3
+      - *ref_4
       - *ref_0
     contributors:
       human:
@@ -674,7 +718,7 @@ by_symbol:
     stability_score: 1
     fragility: low
     recent:
-      - *ref_3
+      - *ref_4
       - *ref_0
     contributors:
       human:
@@ -687,7 +731,7 @@ by_symbol:
     stability_score: 1
     fragility: low
     recent:
-      - *ref_3
+      - *ref_4
       - *ref_2
       - *ref_1
       - *ref_0
@@ -714,7 +758,7 @@ by_symbol:
     stability_score: 1
     fragility: low
     recent:
-      - *ref_4
+      - *ref_5
       - *ref_0
     contributors:
       human:
@@ -764,7 +808,7 @@ by_symbol:
     fragility: low
     recent:
       - *ref_2
-      - *ref_4
+      - *ref_5
       - *ref_1
     contributors:
       human:
@@ -832,12 +876,13 @@ by_symbol:
       agent: []
   '#mobile-alarms':
     symbol: '#mobile-alarms'
-    total_changes: 1
-    last_modified: '2026-09-01T22:07:11Z'
+    total_changes: 2
+    last_modified: '2026-09-02T14:47:59Z'
     stability_score: 1
     fragility: low
     recent:
       - *ref_3
+      - *ref_4
     contributors:
       human:
         - ascend

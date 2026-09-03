@@ -1,0 +1,94 @@
+{
+  "phase": "complete",
+  "context": "Wrapping a long session. Desktop app is fully working and installed (KeepAlive agent, tray, alarms with beep/YouTube-in-window/local-file, puzzle, stopwatch/timer/pomodoro). Extended to iOS+Android via Tauri. iOS is on a physical iPhone 15 Pro (signed, team SW4BMQ8PNL). The unresolved wall: iOS lock-screen alarms don't work — background local notifications never deliver via tauri-plugin-notification (even after fixing its UTC-vs-local Schedule.at bug by switching to Schedule.interval), and iOS freezes the web app when locked. Pivoted to 'nightstand mode' (keep-screen-awake + import files into app so they play in-app while the app is open). That build was in progress when we stopped; not yet device-verified.",
+  "timestamp": 1788423001794,
+  "sessionId": "smtgvud0l",
+  "plan": "If resumed: verify nightstand mode on device (keep-awake wake lock + import_media file playback). If lock-screen wake-up is still required, the only path is native Swift notification scheduling (bypass the plugin) and likely Critical Alerts entitlement. Otherwise, desktop is the fully-working product.",
+  "modifiedFiles": [
+    "src/lib/mobileAlarms.ts",
+    "src/lib/wakelock.ts",
+    "src/lib/filepick.ts",
+    "src/lib/beep.ts",
+    "src/components/AlarmsView.tsx",
+    "src/App.tsx",
+    "src/App.css",
+    "src-tauri/src/lib.rs",
+    "src-tauri/tauri.conf.json"
+  ],
+  "symbolsTouched": [
+    "#mobile-alarms",
+    "#wakelock",
+    "#tauri-core",
+    "#alarms-view",
+    "#filepick",
+    "#trigger-player",
+    "#beep"
+  ],
+  "decisions": [
+    "iOS lock-screen alarm via Tauri/web is a platform wall (app frozen when locked; notification plugin won't deliver); chose nightstand mode (app-open) as the achievable iOS path",
+    "Import picked files into the app data dir (import_media) so they're durable and playable in-app on iOS",
+    "Removed the pmset wake-from-sleep feature entirely earlier (its admin prompt blocked alarms)"
+  ],
+  "recentBreadcrumbs": [
+    {
+      "timestamp": 1788338509522,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src/lib"
+    },
+    {
+      "timestamp": 1788338512156,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src-tauri/src"
+    },
+    {
+      "timestamp": 1788338519692,
+      "action": "tool-call",
+      "tool": "paradigm_reindex",
+      "summary": "Rebuilt static index files"
+    },
+    {
+      "timestamp": 1788338564507,
+      "action": "tool-call",
+      "tool": "paradigm_lore_record",
+      "summary": "lore_record: a-clock: remove wake-from-sleep feature entirely (it blocked"
+    },
+    {
+      "timestamp": 1788421482335,
+      "action": "tool-call",
+      "tool": "paradigm_lore_record",
+      "summary": "lore_record: a-clock on iPhone: device deploy, and debugging iOS notifica"
+    },
+    {
+      "timestamp": 1788422976601,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src/lib"
+    },
+    {
+      "timestamp": 1788422979562,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src-tauri/src"
+    },
+    {
+      "timestamp": 1788422981742,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src/components"
+    },
+    {
+      "timestamp": 1788422988982,
+      "action": "tool-call",
+      "tool": "paradigm_reindex",
+      "summary": "Rebuilt static index files"
+    },
+    {
+      "timestamp": 1788423001789,
+      "action": "tool-call",
+      "tool": "paradigm_session_checkpoint",
+      "summary": "Checkpoint: phase=complete, Wrapping a long session. Desktop app is fully working and in"
+    }
+  ]
+}

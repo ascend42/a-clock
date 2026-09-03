@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Alarm } from "../types";
 import { DAY_LABELS, DEFAULT_PUZZLE } from "../types";
 import { AlarmEditor } from "./AlarmEditor";
+import { isMobile } from "../lib/mobileAlarms";
 
 interface Props {
   alarms: Alarm[];
@@ -10,6 +11,8 @@ interface Props {
   onToggle: (id: string, enabled: boolean) => void;
   onDuplicate: (alarm: Alarm) => void;
   onTest: (alarm: Alarm) => void;
+  keepAwake: boolean;
+  onToggleKeepAwake: (enabled: boolean) => void;
 }
 
 function newAlarm(): Alarm {
@@ -62,6 +65,8 @@ export function AlarmsView({
   onToggle,
   onDuplicate,
   onTest,
+  keepAwake,
+  onToggleKeepAwake,
 }: Props) {
   const [editing, setEditing] = useState<Alarm | null>(null);
 
@@ -79,6 +84,23 @@ export function AlarmsView({
           </button>
         </div>
       </div>
+
+      {isMobile() && (
+        <div className="nightstand-box">
+          <label className="toggle">
+            <input
+              type="checkbox"
+              checked={keepAwake}
+              onChange={(e) => onToggleKeepAwake(e.target.checked)}
+            />
+            🌙 Nightstand mode (keep screen on)
+          </label>
+          <small className="hint">
+            On iPhone the alarm plays only while a-clock is open. Turn this on and
+            leave the app open on a charger so alarms fire overnight.
+          </small>
+        </div>
+      )}
 
       {sorted.length === 0 && (
         <div className="empty">

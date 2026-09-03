@@ -1,50 +1,8 @@
 {
   "sessionId": "smtgvud0l",
   "startTime": 1788159241317,
-  "lastActivity": 1788338519768,
+  "lastActivity": 1788422989477,
   "breadcrumbs": [
-    {
-      "timestamp": 1788161500902,
-      "action": "tool-call",
-      "tool": "paradigm_purpose_add_signal",
-      "summary": "purpose_add_signal: src"
-    },
-    {
-      "timestamp": 1788161506383,
-      "action": "tool-call",
-      "tool": "paradigm_purpose_add_component",
-      "summary": "purpose_add_component: src/components"
-    },
-    {
-      "timestamp": 1788161507766,
-      "action": "tool-call",
-      "tool": "paradigm_purpose_add_signal",
-      "summary": "purpose_add_signal: src"
-    },
-    {
-      "timestamp": 1788161512079,
-      "action": "tool-call",
-      "tool": "paradigm_reindex",
-      "summary": "Rebuilt static index files"
-    },
-    {
-      "timestamp": 1788161513587,
-      "action": "tool-call",
-      "tool": "paradigm_purpose_validate",
-      "summary": "purpose_validate"
-    },
-    {
-      "timestamp": 1788161528089,
-      "action": "tool-call",
-      "tool": "paradigm_purpose_validate",
-      "summary": "purpose_validate"
-    },
-    {
-      "timestamp": 1788161572990,
-      "action": "tool-call",
-      "tool": "paradigm_pm_postflight",
-      "summary": "pm_postflight"
-    },
     {
       "timestamp": 1788161628419,
       "action": "tool-call",
@@ -302,6 +260,48 @@
       "action": "tool-call",
       "tool": "paradigm_lore_record",
       "summary": "lore_record: a-clock: remove wake-from-sleep feature entirely (it blocked"
+    },
+    {
+      "timestamp": 1788421482335,
+      "action": "tool-call",
+      "tool": "paradigm_lore_record",
+      "summary": "lore_record: a-clock on iPhone: device deploy, and debugging iOS notifica"
+    },
+    {
+      "timestamp": 1788422976601,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src/lib"
+    },
+    {
+      "timestamp": 1788422979562,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src-tauri/src"
+    },
+    {
+      "timestamp": 1788422981742,
+      "action": "tool-call",
+      "tool": "paradigm_purpose_add_component",
+      "summary": "purpose_add_component: src/components"
+    },
+    {
+      "timestamp": 1788422988982,
+      "action": "tool-call",
+      "tool": "paradigm_reindex",
+      "summary": "Rebuilt static index files"
+    },
+    {
+      "timestamp": 1788423001789,
+      "action": "tool-call",
+      "tool": "paradigm_session_checkpoint",
+      "summary": "Checkpoint: phase=complete, Wrapping a long session. Desktop app is fully working and in"
+    },
+    {
+      "timestamp": 1788423027948,
+      "action": "tool-call",
+      "tool": "paradigm_lore_record",
+      "summary": "lore_record: a-clock: iOS alarm platform wall, and pivot to nightstand mo"
     }
   ],
   "symbolsModified": [],

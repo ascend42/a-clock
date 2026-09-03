@@ -2,7 +2,7 @@
   "$meta": {
     "version": "1.0.0",
     "project": "a-clock",
-    "generatedAt": "2026-09-02T08:41:59.747Z",
+    "generatedAt": "2026-09-03T08:09:49.457Z",
     "paradigmVersion": "0.1.0",
     "sources": {
       "purposeFiles": 6,
@@ -13,7 +13,7 @@
       "core": 1,
       "view": 10,
       "hook": 2,
-      "lib": 9
+      "lib": 10
     }
   },
   "components": {
@@ -23,7 +23,7 @@
       "symbol": "#tauri-core",
       "category": "components",
       "path": "/Users/ascend/Documents/GitHub/a-clock/src-tauri/src/.purpose",
-      "description": "Tauri entry point. Registers opener/dialog/notification plugins; enables the asset protocol; desktop-only menu-bar tray with hide-on-close scoped to the main window. Exposes the open_video command (dedicated looping YouTube window via an injected initialization script). No wake/pmset code — that feature was removed.",
+      "description": "Tauri entry point. Registers opener/dialog/notification plugins; enables the asset protocol (incl. app-data dir). Desktop-only tray + hide-on-close (main window). Commands: open_video (desktop looping YouTube window) and import_media (copies a picked file into the app's data dir so it's durable and playable in-app, esp. on iOS).",
       "visualTags": [],
       "related": [],
       "componentType": "core"
@@ -62,7 +62,7 @@
       "symbol": "#alarms-view",
       "category": "components",
       "path": "/Users/ascend/Documents/GitHub/a-clock/src/components/.purpose",
-      "description": "Lists alarms; create, edit, enable/disable, delete, duplicate, and test each one. Header toggle arms macOS wake-from-sleep for alarms.",
+      "description": "Lists alarms; create, edit, enable/disable, delete, duplicate, and test each one. On mobile shows a Nightstand-mode toggle (keep screen on) so the in-app scheduler keeps running.",
       "visualTags": [],
       "related": [
         "$alarm-lifecycle",
@@ -313,6 +313,17 @@
       ],
       "componentType": "lib"
     },
+    "wakelock": {
+      "id": "wakelock",
+      "name": "Wakelock",
+      "symbol": "#wakelock",
+      "category": "components",
+      "path": "/Users/ascend/Documents/GitHub/a-clock/src/lib/.purpose",
+      "description": "Nightstand mode: requests a screen Wake Lock so the phone doesn't auto-lock and freeze the in-app alarm scheduler; re-acquires on visibility change. No-op where the Wake Lock API is unavailable.",
+      "visualTags": [],
+      "related": [],
+      "componentType": "lib"
+    },
     "storage.": {
       "id": "storage.",
       "name": "Storage.",
@@ -509,6 +520,10 @@
     "#mobile-alarms": {
       "category": "components",
       "id": "mobile-alarms"
+    },
+    "#wakelock": {
+      "category": "components",
+      "id": "wakelock"
     },
     "$alarm-lifecycle": {
       "category": "flows",

@@ -17,7 +17,7 @@ components:
     parent: '#clock-view'
     file: src/components/AnalogClock.tsx
   alarms-view:
-    description: Lists alarms; create, edit, enable/disable, delete, duplicate, and test each one. Header toggle arms macOS wake-from-sleep for alarms.
+    description: Lists alarms; create, edit, enable/disable, delete, duplicate, and test each one. On mobile shows a Nightstand-mode toggle (keep screen on) so the in-app scheduler keeps running.
     type: view
     flows:
       - $alarm-lifecycle

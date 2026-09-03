@@ -1,0 +1,62 @@
+id: L-2026-09-03-ascend-081027-001
+type: milestone
+timestamp: '2026-09-03T08:10:27.954Z'
+author: ascend
+agent:
+  provider: anthropic
+  model: claude-opus-4-6
+title: 'a-clock: iOS alarm platform wall, and pivot to nightstand mode (session close)'
+summary: 'Closing a long session. Where things stand: the DESKTOP app is the fully-working product — installed at /Applications with a launchd KeepAlive agent, menu-bar tray, and rich alarms (beep, looping YouTube in a dedicated window, local audio/video files in the overlay), plus puzzle-to-dismiss, stopwatch/timer/pomodoro. Extended to iOS + Android via Tauri (one React codebase); the iOS app is signed (team SW4BMQ8PNL) and installed on a physical iPhone 15 Pro. The blocker we could not clear: a real lock-screen iOS alarm. iOS freezes the web app when the phone is locked, so only an OS notification can wake the user — but tauri-plugin-notification never DELIVERS scheduled local notifications on this setup. We confirmed mobile=true and perm=true, sendNotification returns success, yet nothing fires. We also found and worked around a genuine plugin bug (Schedule.at parses the UTC timestamp with a no-timezone DateFormatter, scheduling hours off) by switching to Schedule.interval with local calendar components — but delivery still failed, pointing to a deeper plugin/registration issue. Given that, we pivoted to ''nightstand mode'': a keep-screen-awake Wake Lock plus importing picked files into the app''s data dir (import_media) so they play in-app while a-clock is open on a charger. That build compiles and installs but was not device-verified before stopping. Also bumped the WebAudio beep volume. Not attempted: the native-Swift notification path and Critical Alerts entitlement.'
+symbols_touched:
+  - '#mobile-alarms'
+  - '#wakelock'
+  - '#tauri-core'
+  - '#alarms-view'
+  - '#filepick'
+  - '#trigger-player'
+  - '#beep'
+symbols_created:
+  - '#wakelock'
+files_created:
+  - src/lib/wakelock.ts
+files_modified:
+  - src/lib/mobileAlarms.ts
+  - src/lib/filepick.ts
+  - src/lib/beep.ts
+  - src/components/AlarmsView.tsx
+  - src/App.tsx
+  - src/App.css
+  - src-tauri/src/lib.rs
+  - src-tauri/tauri.conf.json
+decisions:
+  - id: ios-nightstand-pivot
+    decision: Accept that iOS lock-screen alarms aren't achievable via this Tauri/web stack; build nightstand mode (app-open) instead
+    rationale: iOS freezes the web app when locked and the notification plugin won't deliver; the only reliable in-app path is keeping the screen awake so the JS scheduler runs and plays imported files while the app is open.
+  - id: import-media
+    decision: Copy picked files into the app data dir via an import_media command
+    rationale: A raw picked path isn't playable in the iOS webview (sandbox/security scope); an app-owned copy is playable via the asset protocol and is durable on all platforms.
+learnings:
+  - 'iOS third-party lock-screen alarms are a hard wall: the OS freezes a backgrounded web app, so only notifications can wake you, and tauri-plugin-notification did not deliver scheduled local notifications here despite success returns.'
+  - tauri-plugin-notification's Schedule.at parses the JS UTC timestamp with a DateFormatter that has no timezone (literal 'Z'), so it schedules in local time — hours off; Schedule.interval with local calendar components avoids that path.
+  - 'For a web-wrapped iOS alarm the realistic model is nightstand mode: Wake Lock to keep the screen on + files imported into the app container for in-app playback.'
+verification:
+  status: partial
+  details:
+    typecheck: pass
+    ios-cargo-check: pass
+    ios-ipa-build: pass
+    nightstand-device-test: untested
+    ios-lockscreen-notification: fail
+tags:
+  - ios
+  - alarm
+  - notifications
+  - nightstand
+  - tauri
+  - platform-limits
+  - session-close
+confidence: 0.9
+git_context:
+  ref: 15331e68d9953b633f26f45f2d6f5f2ad794c713
+  branch: main
+  dirty: true

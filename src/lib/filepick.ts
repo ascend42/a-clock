@@ -1,4 +1,5 @@
 import { open } from "@tauri-apps/plugin-dialog";
+import { invoke } from "@tauri-apps/api/core";
 import type { MediaKind } from "../types";
 
 const AUDIO_EXT = ["mp3", "wav", "m4a", "aac", "flac", "ogg", "oga", "opus"];
@@ -25,7 +26,17 @@ export async function pickMediaFile(): Promise<PickedFile | null> {
     ],
   });
   if (!selected || Array.isArray(selected)) return null;
-  const path = selected;
-  const fileName = path.split(/[\\/]/).pop() ?? path;
-  return { path, fileName, mediaKind: mediaKindForPath(path) };
+  const fileName = selected.split(/[\\/]/).pop() ?? selected;
+  const mediaKind = mediaKindForPath(selected);
+
+  // Import a copy into the app so it's durable and playable in-app (on iOS a
+  // raw picked path isn't accessible to the webview). Fall back to the original
+  // path if the import fails (desktop can still play the original directly).
+  let path = selected;
+  try {
+    path = await invoke<string>("import_media", { src: selected });
+  } catch {
+    path = selected;
+  }
+  return { path, fileName, mediaKind };
 }
